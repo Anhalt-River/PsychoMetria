@@ -102,7 +102,7 @@ namespace PsychoMetria.Pages
             await Task.Delay(70);
             if (!App.IsWindowClosing)
             {
-                NavigationService.Navigate(new StartPage(true));
+                NavigationService.Navigate(new MainPage());
             }
         }
         private async Task endNavigation()
