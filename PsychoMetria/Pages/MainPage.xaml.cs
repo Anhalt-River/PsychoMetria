@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using PsychoMetria.Materials.Models;
+using PsychoMetria.Windows;
 
 namespace PsychoMetria.Pages
 {
@@ -35,7 +40,20 @@ namespace PsychoMetria.Pages
 
         private void QuestionnaireStartBut_Click(object sender, RoutedEventArgs e)
         {
+            ListLoader();
+        }
 
+        private void ListLoader()
+        {
+            string path = $"{AppDomain.CurrentDomain.BaseDirectory}Data" + "\\Test.txt";
+            //MessageBox.Show($"{path}");
+
+            Questionnaire questionnaire = new Questionnaire(path);
+            List<Questionnaire> questionnaires = new List<Questionnaire>();
+            questionnaires.Add(questionnaire);
+
+            QuestionnaireList.ItemsSource = null;
+            QuestionnaireList.ItemsSource = questionnaires;
         }
 
         private void UserToolKitBut_Click(object sender, RoutedEventArgs e)
@@ -96,6 +114,17 @@ namespace PsychoMetria.Pages
                 DeveloperMenuBoard.BeginAnimation(WidthProperty, da);
                 IsDeveloperToggle = false;
             }
+        }
+
+        private void AddNewQuestionnaireBut_Click(object sender, RoutedEventArgs e)
+        {
+            //Найти новый файл, скопировать его в папку установленных тестов
+            ListLoader();
+        }
+
+        private void SettingsBut_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
         }
     }
 }

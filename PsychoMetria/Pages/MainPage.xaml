@@ -60,12 +60,12 @@
 
                             <TextBlock Grid.Row="1" Grid.Column="0"
                                        TextAlignment="Center" TextWrapping="Wrap"
-                                       Text="{Binding Test_Name}"/>
+                                       Text="{Binding Name}"/>
 
                             <TextBlock  Grid.Row="1" Grid.Column="1" Grid.RowSpan="3"
                                        TextAlignment="Left" 
                                        TextWrapping="Wrap"
-                                       Text="{Binding Test_Description}"/>
+                                       Text="{Binding Description}"/>
 
                             <Button Grid.Column="0" Grid.Row="2"
                                     x:Name="QuestionnaireStartBut" Click="QuestionnaireStartBut_Click"
@@ -91,8 +91,7 @@
         <Button Grid.Column="0" Grid.Row="0"
                 x:Name="UserToolKitBut" Click="UserToolKitBut_Click"
                 Margin="10" Background="White"
-                Opacity="0.6"
-                ToolTipService.InitialShowDelay="100">
+                Opacity="0.6">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
@@ -113,6 +112,7 @@
                     CornerRadius="0,10,10,0">
             <StackPanel Orientation="Horizontal" Margin="0">
                 <Button Width="50"  Opacity="0.8"
+                        x:Name="SettingsBut" Click="SettingsBut_Click"
                         Background="White">
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -120,10 +120,10 @@
                         </Style>
                     </Button.Resources>
 
-                    <Image Source="/Materials/Images/user_icon.png"/>
+                    <Image Source="/Materials/Images/settings_icon.png"/>
 
                     <Button.ToolTip>
-                        <TextBlock Text="Подсказка1"/>
+                        <TextBlock Text="Настройки"/>
                     </Button.ToolTip>
                 </Button>
 
@@ -198,5 +198,30 @@
                 </Button>
             </StackPanel>
         </Border>
+
+
+
+        <Button Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                x:Name="AddNewQuestionnaireBut" Click="AddNewQuestionnaireBut_Click"
+                Width="70" Height="70"
+                Background="LightBlue" BorderThickness="2"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="60"
+                ToolTipService.InitialShowDelay="100">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+
+            <Image Source="/Materials/Images/create_icon.png"/>
+
+            <Button.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="Добавить" Margin="0"/>
+                    <TextBlock Text="новый" Margin="0"/>
+                    <TextBlock Text="тест" Margin="0"/>
+                </StackPanel>
+            </Button.ToolTip>
+        </Button>
     </Grid>
 </Page>

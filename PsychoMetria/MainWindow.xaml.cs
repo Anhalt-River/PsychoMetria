@@ -28,11 +28,22 @@ namespace PsychoMetria
 
         private void BasicLoader()
         {
-            MainFrame.Content = new Pages.StartPage(true);
+            if (!PsychoMetria.Properties.Settings.Default.IsLoadCanceled)
+            {
+                MainFrame.Content = new Pages.StartPage(true);
+            }
+            else
+            {
+                MainFrame.Content = new Pages.MainPage();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (PsychoMetria.Properties.Settings.Default.IsLoadCanceled)
+            {
+                return;
+            }
             if (!App.IsWindowClosing)
             {
                 App.IsWindowClosing = true;

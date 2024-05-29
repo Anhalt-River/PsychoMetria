@@ -14,5 +14,6 @@ namespace PsychoMetria
     public partial class App : Application
     {
         public static bool IsWindowClosing = false;
+        public static bool IsSettingsOpened = false;
     }
 }
