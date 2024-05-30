@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Materials\Models\Answer.cs" />
+    <Compile Include="Pages\QuestionnairePage.xaml.cs">
+      <DependentUpon>QuestionnairePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -71,6 +75,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\QuestionnairePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -131,6 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Materials\Images\developer_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Materials\Images\back_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

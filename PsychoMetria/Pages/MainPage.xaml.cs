@@ -40,7 +40,7 @@ namespace PsychoMetria.Pages
 
         private void QuestionnaireStartBut_Click(object sender, RoutedEventArgs e)
         {
-            ListLoader();
+            NavigationService.Navigate(new QuestionnairePage());
         }
 
         private void ListLoader()

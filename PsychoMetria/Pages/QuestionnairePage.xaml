@@ -1,0 +1,154 @@
+﻿<Page x:Class="PsychoMetria.Pages.QuestionnairePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PsychoMetria.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="650" d:DesignWidth="1000"
+      Title="QuestionnairePage">
+
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Column="0" Grid.Row="0"
+                    x:Name="BackToMainBut" Click="BackToMainBut_Click"
+                    Background="LightSalmon">
+                <Image Source="/Materials/Images/back_icon.png"/>
+
+                <Button.Effect>
+                    <DropShadowEffect Color="MidnightBlue" ShadowDepth="4"/>
+                </Button.Effect>
+
+                <Button.ToolTip>
+                    <TextBlock Text="Покинуть тестирование"/>
+                </Button.ToolTip>
+            </Button>
+            
+            <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                        Background="LightSkyBlue">
+                <StackPanel.Effect>
+                    <DropShadowEffect Color="MidnightBlue" ShadowDepth="4" Direction="-90"/>
+                </StackPanel.Effect>
+
+                <TextBlock Text="Неизвестный тест" FontSize="35"
+                           x:Name="QuestionnaireBlock"
+                           HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"
+                           Foreground="MidnightBlue"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Grid.Column="2"
+                        Orientation="Vertical"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                        Background="LightSkyBlue">
+
+                <TextBlock Text="-" FontSize="20" Margin="0"
+                               x:Name="QuestionnairePassed" 
+                               HorizontalAlignment="Center"
+                               Foreground="MidnightBlue"/>
+                <TextBlock Text="/" FontSize="15" Margin="0"
+                               HorizontalAlignment="Center"
+                               Foreground="MidnightBlue"/>
+                <TextBlock Text="-" FontSize="20" Margin="0"
+                           MaxWidth="70"
+                           x:Name="QuestionnaireTotal"
+                           HorizontalAlignment="Center"
+                           Foreground="MidnightBlue"/>
+
+                <StackPanel.Effect>
+                    <DropShadowEffect ShadowDepth="4" Direction="-120"/>
+                </StackPanel.Effect>
+
+                <StackPanel.ToolTip>
+                    <TextBlock Text="Прогресс опроса"/>
+                </StackPanel.ToolTip>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="3"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Background="White" ClipToBounds="True"
+                        Margin="0">
+                <StackPanel.Effect>
+                    <DropShadowEffect ShadowDepth="3" Color="Beige"/>
+                </StackPanel.Effect>
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3" Margin="5"
+                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                          Background="Transparent">
+                <TextBlock x:Name="QuestionBlock" 
+                           TextWrapping="Wrap" 
+                           Text="Неизвестное описание"
+                           Background="Transparent">
+                </TextBlock>
+            </ScrollViewer>
+
+            <ListView Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2"
+                  x:Name="AnswersList"
+                  BorderBrush="MidnightBlue" BorderThickness="2" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  d:ItemsSource="{d:SampleData ItemCount=50}">
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="1"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button HorizontalContentAlignment="Left" Margin="5"
+                                x:Name="AnswerBut" Click="AnswerBut_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.015" ScaleY="1.015"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            
+                            <Button.Effect>
+                                <DropShadowEffect ShadowDepth="1"/>
+                            </Button.Effect>
+
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+
+                            <TextBlock Text="{Binding Answer_Text}" HorizontalAlignment="Stretch" Margin="10"/>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>

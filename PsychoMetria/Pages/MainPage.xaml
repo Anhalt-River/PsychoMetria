@@ -216,7 +216,7 @@
             <Image Source="/Materials/Images/create_icon.png"/>
 
             <Button.ToolTip>
-                <StackPanel>
+                <StackPanel HorizontalAlignment="Center">
                     <TextBlock Text="Добавить" Margin="0"/>
                     <TextBlock Text="новый" Margin="0"/>
                     <TextBlock Text="тест" Margin="0"/>
