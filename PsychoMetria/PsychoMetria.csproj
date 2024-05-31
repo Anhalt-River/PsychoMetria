@@ -143,5 +143,17 @@
   <ItemGroup>
     <Resource Include="Materials\Images\back_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Materials\Images\delete_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Materials\Images\test_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Materials\Images\add_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Materials\Images\notfound_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

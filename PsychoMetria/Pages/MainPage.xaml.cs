@@ -145,7 +145,8 @@ namespace PsychoMetria.Pages
 
             style.Setters.Add(new Setter(TextBlock.ForegroundProperty, Brushes.White));
 
-            App.Current.Resources["MyStyle"] = style;
+            App.Current.Resources["DefaultButton"] = App.Current.Resources["UnvisibleButton"];
+            App.Current.Resources["DefaultButton2"] = App.Current.Resources["VisibleButton"];
 
             roleMessageMethod();
         }
@@ -153,6 +154,8 @@ namespace PsychoMetria.Pages
         private void UserModeBut_Click(object sender, RoutedEventArgs e)
         {
             _roleMode = 1;
+            App.Current.Resources["DefaultButton"] = App.Current.Resources["VisibleButton"];
+            App.Current.Resources["DefaultButton2"] = App.Current.Resources["UnvisibleButton"];
             roleMessageMethod();
         }
 
@@ -189,6 +192,56 @@ namespace PsychoMetria.Pages
                 isMessageToggle = false;
             }
             await Task.Delay(1000);
+        }
+
+        private void DeleteQuestionnaireBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void QuestionnaireEditBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateNewQuestionnaireBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateNewQuestionnaireBut_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var new_width = QuestionnaireList.ActualWidth;
+            if (new_width >= 1900)
+            {
+                new_width = new_width * 0.89;
+            }
+            else if (new_width < 1900 && new_width >= 900)
+            {
+                new_width = new_width * 0.79;
+            }
+            else if (new_width < 900 && new_width >= 600)
+            {
+                new_width = new_width * 0.6;
+            }
+            else
+            {
+                new_width = new_width * 0.4;
+            }
+
+            Style style = new Style
+            {
+                TargetType = typeof(ScrollViewer)
+            };
+
+            style.Setters.Add(new Setter(ScrollViewer.WidthProperty, new_width));
+
+            App.Current.Resources["DefaultScrollViewer"] = style;
         }
     }
 }

@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:PsychoMetria.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="650" d:DesignWidth="1000"
-      Title="MainPage">
+      Title="MainPage"
+      SizeChanged="Page_SizeChanged">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -87,38 +88,81 @@
                             <TextBlock Grid.Row="0" Grid.Column="0"
                                        Text="Наименование" TextAlignment="Center" FontWeight="Bold"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{DynamicResource MyStyle}"
+                            <TextBlock Grid.Row="0" Grid.Column="1"
                                        Text="Описание" TextAlignment="Left" FontWeight="Bold"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0"
                                        TextAlignment="Center" TextWrapping="Wrap"
                                        Text="{Binding Name}"/>
 
-                            <ScrollViewer  Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
-                                           HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch"
-                                           ScrollViewer.CanContentScroll="True"
-                                           x:Name="QuestionnaireScrollView"
-                                           MaxHeight="100" Width="700">
+                            <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+                                          HorizontalAlignment="Left"
+                                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                          ScrollViewer.CanContentScroll="True"
+                                          x:Name="QuestionnaireScrollView"
+                                          MaxHeight="100"
+                                          Style="{DynamicResource DefaultScrollViewer}">
                                 <TextBlock TextAlignment="Left" TextWrapping="Wrap"
                                            Text="{Binding Description}"
                                            HorizontalAlignment="Left"/>
                             </ScrollViewer>
 
-                            <Button Grid.Column="0" Grid.Row="2"
-                                    x:Name="QuestionnaireStartBut" Click="QuestionnaireStartBut_Click"
-                                    Background="LightBlue" BorderThickness="0">
-                                <Button.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="10"/>
-                                    </Style>
-                                </Button.Resources>
-                                
-                                <Image Source="/Materials/Images/write_icon.png" />
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                                <Button.ToolTip>
-                                    <TextBlock Text="Пройти опрос"/>
-                                </Button.ToolTip>
-                            </Button>
+                                <Button Grid.Column="0" Grid.Row="2"
+                                        x:Name="QuestionnaireStartBut" Click="QuestionnaireStartBut_Click"
+                                        Background="LightBlue" BorderThickness="0"
+                                        Style="{DynamicResource DefaultButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources>
+
+                                    <Image Source="/Materials/Images/test_icon.png" />
+
+                                    <Button.ToolTip>
+                                        <TextBlock Text="Пройти опрос"/>
+                                    </Button.ToolTip>
+                                </Button>
+
+                                <Button Grid.Column="0" Grid.Row="2"
+                                        x:Name="QuestionnaireEditBut" Click="QuestionnaireEditBut_Click"
+                                        Background="LightBlue" BorderThickness="0"
+                                        Style="{DynamicResource DefaultButton2}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources>
+
+                                    <Image Source="/Materials/Images/write_icon.png" />
+
+                                    <Button.ToolTip>
+                                        <TextBlock Text="Отредактировать опрос"/>
+                                    </Button.ToolTip>
+                                </Button>
+                                
+                                <Button Grid.Column="1"
+                                        Background="LightSalmon" BorderThickness="0"
+                                        x:Name="DeleteQuestionnaireBut" Click="DeleteQuestionnaireBut_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources>
+
+                                    <Image Source="/Materials/Images/delete_icon.png" />
+
+                                    <Button.ToolTip>
+                                        <TextBlock Text="Удалить опрос из сохраненных"/>
+                                    </Button.ToolTip>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Border>
                 </DataTemplate>
@@ -188,7 +232,7 @@
                         </Style>
                     </Button.Resources>
 
-                    <Image Source="/Materials/Images/user_icon.png"/>
+                    <Image Source="/Materials/Images/notfound_icon.png"/>
 
                     <Button.ToolTip>
                         <TextBlock Text="Подсказка1"/>
@@ -220,6 +264,23 @@
                 x:Name="DeveloperMenuBoard" 
                 CornerRadius="10,0,0,10">
             <StackPanel Orientation="Horizontal" Margin="0">
+
+                <Button Width="50"  Opacity="0.8"
+                        x:Name="CreateNewQuestionnaireBut" Click="CreateNewQuestionnaireBut_Click_1"
+                        Background="White">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+
+                    <Image Source="/Materials/Images/create_icon.png"/>
+
+                    <Button.ToolTip>
+                        <TextBlock Text="Добавить новый тест"/>
+                    </Button.ToolTip>
+                </Button>
+                
                 <Button Width="50"  Opacity="0.8"
                         Background="White">
                     <Button.Resources>
@@ -228,7 +289,7 @@
                         </Style>
                     </Button.Resources>
 
-                    <Image Source="/Materials/Images/developer_icon.png"/>
+                    <Image Source="/Materials/Images/notfound_icon.png"/>
 
                     <Button.ToolTip>
                         <TextBlock Text="Подсказка1"/>
@@ -270,45 +331,53 @@
             </StackPanel>
         </Border>
 
-        <Button Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
+        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
+              HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
                 x:Name="AddNewQuestionnaireBut" Click="AddNewQuestionnaireBut_Click"
                 Width="70" Height="70"
                 Background="LightBlue" BorderThickness="2"
-                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="60"
-                ToolTipService.InitialShowDelay="100">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </Button.Resources>
+                ToolTipService.InitialShowDelay="100"
+                Margin="0, 0, 10, 0">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
 
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
 
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="MidnightBlue"/>
-                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-            
-            <Image Source="/Materials/Images/create_icon.png"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="MidnightBlue"/>
+                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
 
-            <Button.ToolTip>
-                <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="Добавить" Margin="0"/>
-                    <TextBlock Text="новый" Margin="0"/>
-                    <TextBlock Text="тест" Margin="0"/>
-                </StackPanel>
-            </Button.ToolTip>
-        </Button>
+                <Image Source="/Materials/Images/add_icon.png"/>
+
+                <Button.ToolTip>
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="Добавить" Margin="0"/>
+                        <TextBlock Text="новый" Margin="0"/>
+                        <TextBlock Text="тест" Margin="0"/>
+                    </StackPanel>
+                </Button.ToolTip>
+            </Button>
+        </Grid>
     </Grid>
 </Page>
