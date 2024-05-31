@@ -47,5 +47,10 @@
             <Setter Property="Width" Value="Auto"/>
             <Setter Property="Height" Value="Auto"/>
         </Style>
+
+
+        <Style x:Key="MainPageButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Black" />
+        </Style>
     </Application.Resources>
 </Application>

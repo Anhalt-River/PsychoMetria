@@ -26,6 +26,12 @@ namespace PsychoMetria.Pages
     /// </summary>
     public partial class MainPage : Page
     {
+        /// <summary>
+        /// Режимы пользования:
+        /// 1 - Режим пользователя
+        /// 2 - Режим разработчика
+        /// </summary>
+        private int _roleMode = 1; 
         public MainPage()
         {
             InitializeComponent();
@@ -36,6 +42,7 @@ namespace PsychoMetria.Pages
         {
             UserMenuBoard.Width = 0;
             DeveloperMenuBoard.Width = 0;
+            ModeMessageBoard.Height = 0;
         }
 
         private void QuestionnaireStartBut_Click(object sender, RoutedEventArgs e)
@@ -58,61 +65,61 @@ namespace PsychoMetria.Pages
 
         private void UserToolKitBut_Click(object sender, RoutedEventArgs e)
         {
-            UserToolKitMethod();
+            userToolKitMethod();
         }
 
-        private bool IsUserToggle;
-        private void UserToolKitMethod()
+        private bool isUserToggle;
+        private void userToolKitMethod()
         {
-            if (IsDeveloperToggle)
+            if (isDeveloperToggle)
             {
-                DeveloperToolKitMethod();
+                developerToolKitMethod();
             }
 
             DoubleAnimation da = new DoubleAnimation();
-            if (!IsUserToggle)
+            if (!isUserToggle)
             {
                 da.To = 190;
                 da.Duration = TimeSpan.FromSeconds(1);
                 UserMenuBoard.BeginAnimation(WidthProperty, da);
-                IsUserToggle = true;
+                isUserToggle = true;
             }
             else
             {
                 da.To = 0;
                 da.Duration = TimeSpan.FromSeconds(1);
                 UserMenuBoard.BeginAnimation(WidthProperty, da);
-                IsUserToggle = false;
+                isUserToggle = false;
             }
         }
 
         private void DeveloperToolKitBut_Click(object sender, RoutedEventArgs e)
         {
-            DeveloperToolKitMethod();
+            developerToolKitMethod();
         }
 
-        private bool IsDeveloperToggle;
-        private void DeveloperToolKitMethod()
+        private bool isDeveloperToggle;
+        private void developerToolKitMethod()
         {
-            if (IsUserToggle)
+            if (isUserToggle)
             {
-                UserToolKitMethod();
+                userToolKitMethod();
             }
 
             DoubleAnimation da = new DoubleAnimation();
-            if (!IsDeveloperToggle)
+            if (!isDeveloperToggle)
             {
                 da.To = 190;
                 da.Duration = TimeSpan.FromSeconds(1);
                 DeveloperMenuBoard.BeginAnimation(WidthProperty, da);
-                IsDeveloperToggle = true;
+                isDeveloperToggle = true;
             }
             else
             {
                 da.To = 0;
                 da.Duration = TimeSpan.FromSeconds(1);
                 DeveloperMenuBoard.BeginAnimation(WidthProperty, da);
-                IsDeveloperToggle = false;
+                isDeveloperToggle = false;
             }
         }
 
@@ -125,6 +132,63 @@ namespace PsychoMetria.Pages
         private void SettingsBut_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindow settingsWindow = new SettingsWindow();
+        }
+
+        private void DeveloperModeBut_Click(object sender, RoutedEventArgs e)
+        {
+            _roleMode = 2;
+
+            Style style = new Style
+            {
+                TargetType = typeof(TextBlock)
+            };
+
+            style.Setters.Add(new Setter(TextBlock.ForegroundProperty, Brushes.White));
+
+            App.Current.Resources["MyStyle"] = style;
+
+            roleMessageMethod();
+        }
+
+        private void UserModeBut_Click(object sender, RoutedEventArgs e)
+        {
+            _roleMode = 1;
+            roleMessageMethod();
+        }
+
+        private async void roleMessageMethod()
+        {
+            if (_roleMode == 1)
+            {
+                ModeBlock.Text = "Режим пользователя";
+            }
+            else
+            {
+                ModeBlock.Text = "Режим разработчика";
+            }
+            await messageChanger();
+            await messageChanger();
+        }
+
+        private bool isMessageToggle;
+        private async Task messageChanger()
+        {
+            DoubleAnimation da = new DoubleAnimation();
+            if (!isMessageToggle)
+            {
+                da.To = 70;
+                da.Duration = TimeSpan.FromSeconds(0.3);
+                ModeMessageBoard.BeginAnimation(HeightProperty, da);
+                isMessageToggle = true;
+            }
+            else
+            {
+                da.To = 0;
+                da.Duration = TimeSpan.FromSeconds(0.3);
+                ModeMessageBoard.BeginAnimation(HeightProperty, da);
+                isMessageToggle = false;
+            }
+            await Task.Delay(1000);
         }
     }
 }

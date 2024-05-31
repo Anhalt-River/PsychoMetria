@@ -87,7 +87,7 @@
                             <TextBlock Grid.Row="0" Grid.Column="0"
                                        Text="Наименование" TextAlignment="Center" FontWeight="Bold"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="1"
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{DynamicResource MyStyle}"
                                        Text="Описание" TextAlignment="Left" FontWeight="Bold"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0"
@@ -148,6 +148,22 @@
                 x:Name="UserMenuBoard" 
                     CornerRadius="0,10,10,0">
             <StackPanel Orientation="Horizontal" Margin="0">
+                <Button Width="50"  Opacity="0.8"
+                        x:Name="UserModeBut" Click="UserModeBut_Click"
+                        Background="White">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+
+                    <Image Source="/Materials/Images/user_icon.png"/>
+
+                    <Button.ToolTip>
+                        <TextBlock Text="Переключиться на режим пользователя"/>
+                    </Button.ToolTip>
+                </Button>
+                
                 <Button Width="50"  Opacity="0.8"
                         x:Name="SettingsBut" Click="SettingsBut_Click"
                         Background="White">
@@ -220,6 +236,7 @@
                 </Button>
 
                 <Button Width="50"  Opacity="0.8"
+                        x:Name="DeveloperModeBut" Click="DeveloperModeBut_Click"
                         Background="White">
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -230,13 +247,28 @@
                     <Image Source="/Materials/Images/developer_icon.png"/>
 
                     <Button.ToolTip>
-                        <TextBlock Text="Подсказка1"/>
+                        <TextBlock Text="Переключиться на режим разработчика"/>
                     </Button.ToolTip>
                 </Button>
             </StackPanel>
         </Border>
 
-
+        <Border Grid.Column="1" Grid.Row="1"
+                HorizontalAlignment="Center" VerticalAlignment="Top"
+                BorderBrush="Red" BorderThickness="2"
+                x:Name="ModeMessageBoard" 
+                    CornerRadius="0,0,10,10">
+            <Border.Effect>
+                <DropShadowEffect Color="Red" Direction="-90" BlurRadius="10"/>
+            </Border.Effect>
+            
+            <StackPanel Margin="3, 0, 3, 3" Background="LightSalmon"
+                        Orientation="Vertical">
+                <TextBlock Text="Установлен:" TextAlignment="Center" Foreground="MidnightBlue" Margin="0"/>
+                <TextBlock Text="Режим пользователя" x:Name="ModeBlock"
+                           Foreground="MidnightBlue"/>
+            </StackPanel>
+        </Border>
 
         <Button Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2"
                 x:Name="AddNewQuestionnaireBut" Click="AddNewQuestionnaireBut_Click"
