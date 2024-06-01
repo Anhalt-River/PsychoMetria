@@ -266,7 +266,7 @@
             <StackPanel Orientation="Horizontal" Margin="0">
 
                 <Button Width="50"  Opacity="0.8"
-                        x:Name="CreateNewQuestionnaireBut" Click="CreateNewQuestionnaireBut_Click_1"
+                        x:Name="CreateNewQuestionnaireBut" Click="CreateNewQuestionnaireBut_Click"
                         Background="White">
                     <Button.Resources>
                         <Style TargetType="Border">

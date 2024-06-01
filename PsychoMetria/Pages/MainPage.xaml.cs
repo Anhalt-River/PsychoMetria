@@ -80,14 +80,14 @@ namespace PsychoMetria.Pages
             if (!isUserToggle)
             {
                 da.To = 190;
-                da.Duration = TimeSpan.FromSeconds(1);
+                da.Duration = TimeSpan.FromSeconds(0.7);
                 UserMenuBoard.BeginAnimation(WidthProperty, da);
                 isUserToggle = true;
             }
             else
             {
                 da.To = 0;
-                da.Duration = TimeSpan.FromSeconds(1);
+                da.Duration = TimeSpan.FromSeconds(0.7);
                 UserMenuBoard.BeginAnimation(WidthProperty, da);
                 isUserToggle = false;
             }
@@ -110,14 +110,14 @@ namespace PsychoMetria.Pages
             if (!isDeveloperToggle)
             {
                 da.To = 190;
-                da.Duration = TimeSpan.FromSeconds(1);
+                da.Duration = TimeSpan.FromSeconds(0.7);
                 DeveloperMenuBoard.BeginAnimation(WidthProperty, da);
                 isDeveloperToggle = true;
             }
             else
             {
                 da.To = 0;
-                da.Duration = TimeSpan.FromSeconds(1);
+                da.Duration = TimeSpan.FromSeconds(0.7);
                 DeveloperMenuBoard.BeginAnimation(WidthProperty, da);
                 isDeveloperToggle = false;
             }
@@ -206,12 +206,7 @@ namespace PsychoMetria.Pages
 
         private void CreateNewQuestionnaireBut_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void CreateNewQuestionnaireBut_Click_1(object sender, RoutedEventArgs e)
-        {
-
+            NavigationService.Navigate(new CreationPage());
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
