@@ -165,5 +165,8 @@
   <ItemGroup>
     <Resource Include="Materials\Images\cancel_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Materials\Images\edit_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

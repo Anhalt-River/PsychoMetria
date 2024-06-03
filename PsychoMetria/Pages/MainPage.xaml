@@ -98,7 +98,7 @@
                             <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
                                           HorizontalAlignment="Left"
                                           HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                          ScrollViewer.CanContentScroll="True"
+                                          VerticalScrollBarVisibility="Auto"
                                           x:Name="QuestionnaireScrollView"
                                           MaxHeight="100"
                                           Style="{DynamicResource DefaultScrollViewer}">

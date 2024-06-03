@@ -84,14 +84,15 @@
                     <DropShadowEffect ShadowDepth="3" Color="Beige"/>
                 </StackPanel.Effect>
             </StackPanel>
-
+            
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3" Margin="5"
                           HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                           Background="Transparent">
                 <TextBlock x:Name="QuestionBlock" 
                            TextWrapping="Wrap" 
                            Text="Неизвестное описание"
-                           Background="Transparent">
+                           Background="Transparent"
+                           ScrollViewer.VerticalScrollBarVisibility="Auto">
                 </TextBlock>
             </ScrollViewer>
 
@@ -133,7 +134,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            
+
                             <Button.Effect>
                                 <DropShadowEffect ShadowDepth="1"/>
                             </Button.Effect>

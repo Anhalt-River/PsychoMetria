@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -23,6 +24,17 @@ namespace PsychoMetria.Pages
         public CreationPage()
         {
             InitializeComponent();
+            List<string> KZA = new List<string>();
+            KZA.Add("sdsdsds");
+            KZA.Add("sdsdsdssssdsdsdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssdsdsdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+            KZA.Add("sdsdsds");
+            KZA.Add("sdsdsds");
+            KZA.Add("sdsdsds");
+            KZA.Add("sdsdsds");
+            KZA.Add("sdsdsds");
+            KZA.Add("sdsdsds");
+            KZA.Add("sdsdsds");
+            ScalesList.ItemsSource = KZA;
         }
 
         private void BackToMainBut_Click(object sender, RoutedEventArgs e)
@@ -45,7 +57,22 @@ namespace PsychoMetria.Pages
 
         }
 
-        private void ScaleBox_Selected(object sender, RoutedEventArgs e)
+        private void ScaleBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void EditBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddNewScaleBut_Click(object sender, RoutedEventArgs e)
         {
 
         }
