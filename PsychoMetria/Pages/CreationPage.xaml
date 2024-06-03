@@ -68,9 +68,35 @@
                 <Border BorderBrush="MidnightBlue" BorderThickness="1">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch"
                                 Margin="0">
-                        <TextBlock Text="Основная информация" Foreground="DimGray" 
-                                   Margin="5, 0, 0, 0" 
-                                   FontWeight="Light" FontSize="25"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                    Margin="5, 10, 5, 0" >
+                            <TextBlock Text="Основная информация" Foreground="DimGray"
+                                   HorizontalAlignment="Left"
+                                   FontWeight="Light" FontSize="25"
+                                   Margin="0"/>
+                            <Button Grid.Column="0" Grid.Row="0" Margin="10, 0, 0, 0"
+                                    x:Name="MainInfoVisibilityBut" Click="MainInfoVisibilityBut_Click"
+                                    Background="MidnightBlue" BorderThickness="0" Opacity="0.5">
+                                <TextBlock Text="(+)" Opacity="10" 
+                                           x:Name="MainInfoVisibilityText"
+                                           Foreground="White"
+                                           Margin="2"/>
+
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+                                
+                                <Button.Effect>
+                                    <DropShadowEffect Color="LightBlue" ShadowDepth="4" Opacity="0.5"/>
+                                </Button.Effect>
+
+                                <Button.ToolTip>
+                                    <TextBlock Text="Раскрыть основную информацию"/>
+                                </Button.ToolTip>
+                            </Button>
+                        </StackPanel>
                         <Canvas Margin="0, 5, 0, 10" Height="1"
                                 Background="DimGray"/>
                         <StackPanel Margin="5, 0, 5, 0" HorizontalAlignment="Left"
@@ -205,13 +231,39 @@
                         </StackPanel>
 
 
-                        <TextBlock Text="Предмет тестирования" Foreground="DimGray" 
-                                   Margin="5, 10, 5, 0" 
-                                   FontWeight="Light" FontSize="25"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                    Margin="5, 10, 5, 0" >
+                            <TextBlock Text="Предмет тестирования" Foreground="DimGray"
+                                   HorizontalAlignment="Left"
+                                   FontWeight="Light" FontSize="25"
+                                   Margin="0"/>
+                            <Button Grid.Column="0" Grid.Row="0" Margin="10, 0, 0, 0"
+                                    x:Name="ScalesVisibilityBut" Click="ScalesVisibilityBut_Click"
+                                    Background="MidnightBlue" BorderThickness="0" Opacity="0.5">
+                                <TextBlock Text="(+)" Opacity="10" 
+                                           x:Name="ScalesVisibilityText"
+                                           Foreground="White"
+                                           Margin="2"/>
+
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+
+                                <Button.Effect>
+                                    <DropShadowEffect Color="LightBlue" ShadowDepth="4" Opacity="0.5"/>
+                                </Button.Effect>
+
+                                <Button.ToolTip>
+                                    <TextBlock Text="Раскрыть информацию о предмете тестирования"/>
+                                </Button.ToolTip>
+                            </Button>
+                        </StackPanel>
                         <Canvas Margin="0, 5, 0, 10" Height="1"
                                 Background="DimGray"/>
-
                         <StackPanel HorizontalAlignment="Stretch"
+                                    x:Name="ScalesPanel"
                                     Margin="5, 0, 5, 0" Visibility="Collapsed">
                             <StackPanel Margin="0" Orientation="Horizontal" 
                                         HorizontalAlignment="Left">
@@ -284,7 +336,7 @@
                                                         Grid.RowSpan="2"
                                                         Orientation="Horizontal">
                                                     <Button Width="40"  Opacity="0.8"
-                                                        x:Name="EditBut" Click="EditBut_Click"
+                                                        x:Name="EditScaleBut" Click="EditScaleBut_Click"
                                                         Background="White">
                                                         <Button.Resources>
                                                             <Style TargetType="Border">
@@ -300,7 +352,7 @@
                                                     </Button>
 
                                                     <Button Width="40"  Opacity="0.8"
-                                                        x:Name="DeleteBut" Click="DeleteBut_Click"
+                                                        x:Name="DeleteScaleBut" Click="DeleteScaleBut_Click"
                                                         Background="White">
                                                         <Button.Resources>
                                                             <Style TargetType="Border">
@@ -345,15 +397,278 @@
                             </Button>
                         </StackPanel>
 
-                        
-                        <TextBlock Text="Вопросы тестирования" Foreground="DimGray" 
-                                   Margin="5, 10, 5, 0" 
-                                   FontWeight="Light" FontSize="25"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                    Margin="5, 10, 5, 0" >
+                            <TextBlock Text="Вопросы тестирования" Foreground="DimGray"
+                                   HorizontalAlignment="Left"
+                                   FontWeight="Light" FontSize="25"
+                                   Margin="0"/>
+                            <Button Grid.Column="0" Grid.Row="0" Margin="10, 0, 0, 0"
+                                    x:Name="QuestionsVisibilityBut" Click="QuestionsVisibilityBut_Click"
+                                    Background="MidnightBlue" BorderThickness="0" Opacity="0.5">
+                                <TextBlock Text="(+)" Opacity="10" 
+                                           x:Name="QuestionsVisibilityText"
+                                           Foreground="White"
+                                           Margin="2"/>
+
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources>
+
+                                <Button.Effect>
+                                    <DropShadowEffect Color="LightBlue" ShadowDepth="4" Opacity="0.5"/>
+                                </Button.Effect>
+
+                                <Button.ToolTip>
+                                    <TextBlock Text="Раскрыть информацию о вопросах тестирования"/>
+                                </Button.ToolTip>
+                            </Button>
+                        </StackPanel>
                         <Canvas Margin="0, 5, 0, 10" Height="1"
                                 Background="DimGray"/>
                         <StackPanel HorizontalAlignment="Stretch"
-                                    Margin="5, 0, 5, 0" Visibility="Visible">
+                                    x:Name="QuestionsPanel"
+                                    Margin="5, 0, 5, 0" Visibility="Collapsed">
+                            <StackPanel Margin="0, 10, 0, 0" HorizontalAlignment="Left">
+                                <StackPanel Margin="0" Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Перемешивать все вопросы в тестировании"
+                                                   VerticalAlignment="Center" Margin="0"/>
+                                        <CheckBox Margin="5, 0, 0, 0"
+                                                  x:Name="MixUpQuestionsCheckBox"
+                                                  Checked="MixUpQuestionsCheckBox_Checked" Unchecked="MixUpQuestionsCheckBox_Unchecked"
+                                                  VerticalAlignment="Center" VerticalContentAlignment="Center">
+                                            <CheckBox.LayoutTransform>
+                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                            </CheckBox.LayoutTransform>
+                                        </CheckBox>
+                                    </StackPanel>
+                                    <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground" Value="LightBlue"/>
+                                                        <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                                        <Setter Property="RenderTransform">
+                                                            <Setter.Value>
+                                                                <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+
+                                        <TextBlock.ToolTip>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="В отключенном состоянии вопросы будут отображаться в тестировании"/>
+                                                <TextBlock Text="сверху вниз, соответственно положению в списке"/>
+                                            </StackPanel>
+                                        </TextBlock.ToolTip>
+                                </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
                             
+                            <StackPanel Margin="0, 10, 0, 0" Orientation="Horizontal" 
+                                        HorizontalAlignment="Left">
+                                <TextBlock Text="Вопросы тестирования" 
+                                           Margin="5, 0, 0, 0"/>
+                                <TextBlock Text="*" Foreground="OrangeRed" 
+                                           Margin="5, 0, 0, 0"/>
+                                <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Foreground" Value="LightBlue"/>
+                                                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                                    <Setter Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+
+                                    <TextBlock.ToolTip>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="Именно от вопросов тестирования зависит то"/>
+                                            <TextBlock Text="как будут заполняться шкалы тестирования."/>
+                                            <TextBlock Text="Без прикрепленных вопросов шкалы не будут обозначаться в результатах теста"/>
+                                        </StackPanel>
+                                    </TextBlock.ToolTip>
+                                </TextBlock>
+                            </StackPanel>
+                            <ListView x:Name="QuestionsList"
+                                  Margin="0, 10, 5, 0"
+                                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                  d:ItemsSource="{d:SampleData ItemCount=2}">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="1"/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="MidnightBlue" BorderThickness="1" Margin="3">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="160"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition MaxHeight="80"/>
+                                                </Grid.RowDefinitions>
+
+                                                <TextBlock Grid.Row="0" Grid.Column="0"
+                                                       Text="Название"/>
+
+                                                <ScrollViewer Grid.Row="1" Grid.Column="0"
+                                                          VerticalScrollBarVisibility="Auto">
+                                                    <TextBlock
+                                                       Text="{Binding Question_Title}"
+                                                       TextWrapping="Wrap"/>
+                                                </ScrollViewer>
+
+                                                <StackPanel Grid.Row="0" Grid.Column="1"
+                                                        Grid.RowSpan="2"
+                                                        Orientation="Horizontal">
+                                                    <Button Width="40"  Opacity="0.8"
+                                                        x:Name="EditQuestionBut" Click="EditQuestionBut_Click"
+                                                        Background="White">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="3"/>
+                                                            </Style>
+                                                        </Button.Resources>
+
+                                                        <Image Source="/Materials/Images/edit_icon.png"/>
+
+                                                        <Button.ToolTip>
+                                                            <TextBlock Text="Отредактировать вопрос"/>
+                                                        </Button.ToolTip>
+                                                    </Button>
+
+                                                    <Button Width="40"  Opacity="0.8"
+                                                            x:Name="DeleteQuestionBut" Click="DeleteQuestionBut_Click"
+                                                            Background="White">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="3"/>
+                                                            </Style>
+                                                        </Button.Resources>
+
+                                                        <Image Source="/Materials/Images/delete_icon.png" Width="30"/>
+
+                                                        <Button.ToolTip>
+                                                            <StackPanel Orientation="Vertical">
+                                                                <TextBlock Text="Удалить вопрос"/>
+                                                            </StackPanel>
+                                                        </Button.ToolTip>
+                                                    </Button>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="3" Grid.RowSpan="2"
+                                                            Style="{DynamicResource DefaultStackPanel}"
+                                                            Orientation="Vertical">
+                                                    <Button Width="40"  Opacity="0.8"
+                                                            x:Name="UpQuestionBut" Click="UpQuestionBut_Click"
+                                                            Background="White">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="3"/>
+                                                            </Style>
+                                                        </Button.Resources>
+
+                                                        <Image Source="/Materials/Images/up_icon.png"/>
+
+                                                        <Button.ToolTip>
+                                                            <StackPanel Orientation="Vertical">
+                                                                <TextBlock Text="Поднять вопрос по порядку"/>
+                                                            </StackPanel>
+                                                        </Button.ToolTip>
+                                                    </Button>
+
+                                                    <Button Width="40"  Opacity="0.8"
+                                                            x:Name="DownQuestionBut" Click="DownQuestionBut_Click"
+                                                            Background="White">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="3"/>
+                                                            </Style>
+                                                        </Button.Resources>
+
+                                                        <Image Source="/Materials/Images/down_icon.png"/>
+
+                                                        <Button.ToolTip>
+                                                            <StackPanel Orientation="Vertical">
+                                                                <TextBlock Text="Опустить вопрос по порядку"/>
+                                                            </StackPanel>
+                                                        </Button.ToolTip>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <Button Opacity="0.8"
+                                    x:Name="AddNewQuestionBut" Click="AddNewQuestionBut_Click"
+                                    Background="MidnightBlue"
+                                    HorizontalAlignment="Left">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="1"/>
+                                    </Style>
+                                </Button.Resources>
+                                
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsFocused" Value="True">
+                                            </Trigger>
+
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="Background" Value="MidnightBlue"/>
+                                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                                <Setter Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Effect>
+                                    <DropShadowEffect Color="LightBlue" ShadowDepth="4" Opacity="0.5"/>
+                                </Button.Effect>
+
+                                <TextBlock Text="Добавить новый вопрос" Foreground="White"/>
+
+                                <Button.ToolTip>
+                                    <TextBlock Text="В список будет добавлен новый вопрос"/>
+                                </Button.ToolTip>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
                 </Border>

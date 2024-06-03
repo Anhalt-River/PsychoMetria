@@ -49,6 +49,30 @@
         </Style>
 
 
+
+
+        <Style x:Key="DefaultStackPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="VisibleStackPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Visibility" Value="Visible"/>
+        </Style>
+
+        <Style x:Key="UnvisibleStackPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
         
         <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="5"/>
