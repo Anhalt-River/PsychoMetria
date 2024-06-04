@@ -1,0 +1,319 @@
+﻿<Window x:Class="PsychoMetria.Windows.ScaleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PsychoMetria.Windows"
+        mc:Ignorable="d"
+        Title="Окно шкалы тестирования" Height="550" Width="900"
+        Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Column="0"
+                x:Name="MainInfoBut" Click="MainInfoBut_Click"
+                Background="White"
+                ToolTipService.InitialShowDelay="100">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </Button.Resources>
+
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="MidnightBlue"/>
+                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Основная информация"/>
+                <Canvas Margin="0" Height="2"
+                        x:Name="MainInfoUnderline"
+                        Visibility="Visible"
+                        Background="MidnightBlue"/>
+            </StackPanel>
+
+            <Button.ToolTip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Открыть основную информацию"/>
+                </StackPanel>
+            </Button.ToolTip>
+        </Button>
+
+        <Button Grid.Column="1"
+                x:Name="EvaluationBut" Click="EvaluationBut_Click"
+                Background="White"
+                ToolTipService.InitialShowDelay="100">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </Button.Resources>
+
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="MidnightBlue"/>
+                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Оценки"/>
+                <Canvas Margin="0" Height="2"
+                        x:Name="EvaluationUnderline"
+                        Visibility="Collapsed"
+                        Background="MidnightBlue"/>
+            </StackPanel>
+
+            <Button.ToolTip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Открыть таблицу оценок"/>
+                </StackPanel>
+            </Button.ToolTip>
+        </Button>
+
+        <StackPanel Visibility="Visible"
+                    Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                    x:Name="MainInfoPanel"
+                    Orientation="Vertical"
+                    VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <StackPanel Margin="0" HorizontalAlignment="Left">
+                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="Название"
+                               Margin="5, 0, 0, 0"/>
+                    <TextBlock Text="*" Foreground="OrangeRed" 
+                                           Margin="5, 0, 0, 0"/>
+                    <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="LightBlue"/>
+                                        <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                        <TextBlock.ToolTip>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Уникальное название не может превышать размер в 100 символов"/>
+                                <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
+                            </StackPanel>
+                        </TextBlock.ToolTip>
+                                </TextBlock>
+                </StackPanel>
+                <TextBox Text=""
+                         x:Name="NameBox" LostFocus="NameBox_LostFocus"
+                         Margin="0, 5, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel Margin="0" HorizontalAlignment="Left">
+                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="Описание"
+                               Margin="5, 0, 0, 0"/>
+                    <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="LightBlue"/>
+                                        <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                        <TextBlock.ToolTip>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Описание шкалы, которое разъясняет, что именно изучает данная шкала"/>
+                                <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
+                            </StackPanel>
+                        </TextBlock.ToolTip>
+                                </TextBlock>
+                </StackPanel>
+                <TextBox Text=""
+                         x:Name="DescriptionBox" LostFocus="DescriptionBox_LostFocus"
+                         MinWidth="300" MinLines="4"
+                         VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                         TextWrapping="Wrap"
+                         Margin="0, 5, 0, 0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ScrollViewer Visibility="Collapsed"
+                      Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                      x:Name="EvaluationPanel"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <TextBlock Text="Каждому диапазону значений шкалы можно дать свою оценку, с соответствующим наименованием и описанием, какие будут показаны пользователю. Диапазоны значений не должны пересекаться."
+                       FontSize="15"
+                       TextWrapping="WrapWithOverflow"/>
+
+                <Button HorizontalAlignment="Left"
+                        x:Name="AddNewEvaluationBut" Click="AddNewEvaluationBut_Click"
+                        Background="LightBlue" BorderThickness="2"
+                        ToolTipService.InitialShowDelay="100"
+                        Margin="0, 0, 10, 0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <TextBlock Text="Добавить оценку" Margin="3"
+                               Foreground="Black"/>
+                </Button>
+
+                <ListView x:Name="EvaluationList"
+                                  Margin="0, 10, 5, 0"
+                                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                  d:ItemsSource="{d:SampleData ItemCount=2}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="1"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="MidnightBlue" BorderThickness="1" Margin="3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="120"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition MaxHeight="80"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0"
+                                                       Text="Наименование"/>
+
+                                    <ScrollViewer Grid.Row="1" Grid.Column="0"
+                                                          VerticalScrollBarVisibility="Auto">
+                                        <TextBlock Text="{Binding Evaluation_Title}"
+                                                   TextWrapping="Wrap"/>
+                                    </ScrollViewer>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="1"
+                                               Text="Диапазон оценки"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="1"
+                                               Text="{Binding RangeOfValuesString}"
+                                               HorizontalAlignment="Center"/>
+
+                                    <StackPanel Grid.Row="0" Grid.Column="2"
+                                                        Grid.RowSpan="2"
+                                                        Orientation="Horizontal">
+                                        <Button Width="40"  Opacity="0.8"
+                                                        x:Name="EditEvaluationBut" Click="EditEvaluationBut_Click"
+                                                        Background="White">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="3"/>
+                                                </Style>
+                                            </Button.Resources>
+
+                                            <Image Source="/Materials/Images/edit_icon.png"/>
+
+                                            <Button.ToolTip>
+                                                <TextBlock Text="Отредактировать оценку"/>
+                                            </Button.ToolTip>
+                                        </Button>
+
+                                        <Button Width="40"  Opacity="0.8"
+                                                        x:Name="DeleteEvaluationBut" Click="DeleteEvaluationBut_Click"
+                                                        Background="White">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="3"/>
+                                                </Style>
+                                            </Button.Resources>
+
+                                            <Image Source="/Materials/Images/delete_icon.png" Width="30"/>
+
+                                            <Button.ToolTip>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock Text="Удалить оценку"/>
+                                                </StackPanel>
+                                            </Button.ToolTip>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

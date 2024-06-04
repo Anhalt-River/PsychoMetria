@@ -24,6 +24,7 @@ namespace PsychoMetria.Pages
         public CreationPage()
         {
             InitializeComponent();
+            BasicLoader();
             List<string> KZA = new List<string>();
             KZA.Add("sdsdsds");
             KZA.Add("sdsdsdssssdsdsdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssdsdsdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
@@ -37,6 +38,14 @@ namespace PsychoMetria.Pages
             ScalesList.ItemsSource = KZA;
             QuestionsList.ItemsSource = KZA;
         }
+
+        private void BasicLoader()
+        {
+            MainInfoPanel.Visibility = Visibility.Collapsed;
+            ScalesPanel.Visibility = Visibility.Collapsed;
+            QuestionsPanel.Visibility = Visibility.Collapsed;
+        }
+
 
         private void BackToMainBut_Click(object sender, RoutedEventArgs e)
         {

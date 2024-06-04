@@ -1,0 +1,188 @@
+﻿<Window x:Class="PsychoMetria.Windows.EvaluationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PsychoMetria.Windows"
+        mc:Ignorable="d"
+        Title="Окно оценки" Height="450" Width="800"
+        Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      Grid.Row="0"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                <StackPanel Margin="0" HorizontalAlignment="Left">
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Text="Название"
+                               Margin="5, 0, 0, 0"/>
+                        <TextBlock Text="*" Foreground="OrangeRed" 
+                                           Margin="5, 0, 0, 0"/>
+                        <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="LightBlue"/>
+                                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+
+                            <TextBlock.ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Наименование оценки для пользователя"/>
+                                    <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
+                                </StackPanel>
+                            </TextBlock.ToolTip>
+                                </TextBlock>
+                    </StackPanel>
+                    <TextBox Text=""
+                         x:Name="NameBox" LostFocus="NameBox_LostFocus"
+                         Margin="0, 5, 0, 0"/>
+                </StackPanel>
+
+                <StackPanel Margin="0" HorizontalAlignment="Left">
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Text="Диапазон значений"
+                               Margin="5, 0, 0, 0"/>
+                        <TextBlock Text="*" Foreground="OrangeRed" 
+                                           Margin="5, 0, 0, 0"/>
+                        <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="LightBlue"/>
+                                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+
+                            <TextBlock.ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Диапазон, при попадании в который шкала под конец тестирования получит именно эту оценку"/>
+                                    <TextBlock Text="Принимаются только целочисленные значения"/>
+                                </StackPanel>
+                            </TextBlock.ToolTip>
+                                </TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0, 5, 0, 0">
+                        <TextBlock Text="От"/>
+                        <TextBox Text=""
+                         x:Name="StartRangeBox" LostFocus="StartRangeBox_LostFocus"/>
+                        <TextBlock Text="До"/>
+                        <TextBox Text=""
+                         x:Name="EndRangeBox" LostFocus="EndRangeBox_LostFocus"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="0" HorizontalAlignment="Left">
+                    <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Text="Описание"
+                               Margin="5, 0, 0, 0"/>
+                        <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="LightBlue"/>
+                                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+
+                            <TextBlock.ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Описание полученной оценки для пользователя"/>
+                                    <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
+                                </StackPanel>
+                            </TextBlock.ToolTip>
+                                </TextBlock>
+                    </StackPanel>
+                    <TextBox Text=""
+                         x:Name="DescriptionBox" LostFocus="DescriptionBox_LostFocus"
+                         MinWidth="300" MinLines="4"
+                         VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                         TextWrapping="Wrap"
+                         Margin="0, 5, 0, 0"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                    Grid.Row="1">
+            <Button 
+                    Background="LightBlue"
+                    ToolTipService.InitialShowDelay="100">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="MidnightBlue"/>
+                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock Text="Сохранить"
+                           FontSize="17" Margin="2"
+                           TextDecorations="Underline"/>
+
+                <Button.ToolTip>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Сохраненная оценка обновит список"/>
+                    </StackPanel>
+                </Button.ToolTip>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>
