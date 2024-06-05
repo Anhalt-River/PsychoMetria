@@ -59,8 +59,14 @@
     <Compile Include="Pages\CreationPage.xaml.cs">
       <DependentUpon>CreationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\IntroductoryPage.xaml.cs">
+      <DependentUpon>IntroductoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\QuestionnairePage.xaml.cs">
       <DependentUpon>QuestionnairePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ResultsPage.xaml.cs">
+      <DependentUpon>ResultsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\AnswerWindow.xaml.cs">
       <DependentUpon>AnswerWindow.xaml</DependentUpon>
@@ -93,11 +99,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\IntroductoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\QuestionnairePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ResultsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
