@@ -17,7 +17,7 @@
                       Grid.Row="0"
                       HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                <StackPanel Margin="0" HorizontalAlignment="Left">
+                <StackPanel Margin="0, 10, 0, 0" HorizontalAlignment="Left">
                     <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock Text="Название"
                                Margin="5, 0, 0, 0"/>
@@ -56,7 +56,7 @@
                          Margin="0, 5, 0, 0"/>
                 </StackPanel>
 
-                <StackPanel Margin="0" HorizontalAlignment="Left">
+                <StackPanel Margin="0, 10, 0, 0" HorizontalAlignment="Left">
                     <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock Text="Диапазон значений"
                                Margin="5, 0, 0, 0"/>
@@ -85,6 +85,7 @@
                             <TextBlock.ToolTip>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Диапазон, при попадании в который шкала под конец тестирования получит именно эту оценку"/>
+                                    <TextBlock Text="Диапазоны не могут повторяться"/>
                                     <TextBlock Text="Принимаются только целочисленные значения"/>
                                 </StackPanel>
                             </TextBlock.ToolTip>
@@ -101,7 +102,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Margin="0" HorizontalAlignment="Left">
+                <StackPanel Margin="0, 10, 0, 0" HorizontalAlignment="Left">
                     <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock Text="Описание"
                                Margin="5, 0, 0, 0"/>

@@ -56,6 +56,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Materials\Models\Answer.cs" />
+    <Compile Include="Materials\Models\AnswerInfluence.cs" />
+    <Compile Include="Materials\Models\Evaluation.cs" />
+    <Compile Include="Materials\Models\Question.cs" />
+    <Compile Include="Materials\Models\QuestionType.cs" />
+    <Compile Include="Materials\Models\Scale.cs" />
+    <Compile Include="Materials\Models\ScaleAttach.cs" />
     <Compile Include="Pages\CreationPage.xaml.cs">
       <DependentUpon>CreationPage.xaml</DependentUpon>
     </Compile>
