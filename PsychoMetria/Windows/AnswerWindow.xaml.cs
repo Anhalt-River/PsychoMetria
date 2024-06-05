@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PsychoMetria.Materials.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,12 @@ namespace PsychoMetria.Windows
         public AnswerWindow()
         {
             InitializeComponent();
+            BasicLoader();
+        }
+        public AnswerWindow(Answer answer)
+        {
+            InitializeComponent();
+            DeleteAnswerBut.Visibility = Visibility.Collapsed;
             BasicLoader();
         }
 
@@ -56,6 +63,11 @@ namespace PsychoMetria.Windows
         }
 
         private void SaveAnswerBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteAnswerBut_Click(object sender, RoutedEventArgs e)
         {
 
         }

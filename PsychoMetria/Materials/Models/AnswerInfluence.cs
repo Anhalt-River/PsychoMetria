@@ -12,5 +12,10 @@ namespace PsychoMetria.Materials.Models
         public int Answer_Id { get; set; }
         public int ScaleAttach_Id { get; set; }
         public int Influence { get; set; } = 0;
+
+        public void Overwrite(AnswerInfluence answerInfluence)
+        {
+            Influence = answerInfluence.Influence;
+        }
     }
 }

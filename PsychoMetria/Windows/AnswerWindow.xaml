@@ -112,6 +112,43 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                     Grid.Row="1">
+            <Button x:Name="DeleteAnswerBut" Click="DeleteAnswerBut_Click"
+                    Background="LightSalmon"
+                    Margin="0, 0, 10, 0"
+                    ToolTipService.InitialShowDelay="100">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="MidnightBlue"/>
+                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock Text="Удалить"
+                           FontSize="17" Margin="2"/>
+
+                <Button.ToolTip>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Удалить ответ из списка"/>
+                    </StackPanel>
+                </Button.ToolTip>
+            </Button>
+            
             <Button x:Name="SaveAnswerBut" Click="SaveAnswerBut_Click"
                     Background="LightBlue"
                     ToolTipService.InitialShowDelay="100">

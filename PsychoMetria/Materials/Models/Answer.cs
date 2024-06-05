@@ -25,5 +25,11 @@ namespace PsychoMetria.Materials.Models
             }
         }
         public int Question_Id { get; set; } = -1;
+
+        public void Overwrite(Answer answer)
+        {
+            Answer_Text = answer.Answer_Text;
+            Question_Id = answer.Question_Id;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PsychoMetria.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,6 +49,13 @@ namespace PsychoMetria.Materials.Models
             Question_Title = question_Title;
             Question_Text = question_Text;
             QuestionType = new QuestionType(questionType_Id);
+        }
+
+        public void Overwrite(Question question)
+        {
+            Question_Title = question.Question_Title;
+            Question_Text = question.Question_Text;
+            QuestionType = question.QuestionType;
         }
     }
 }

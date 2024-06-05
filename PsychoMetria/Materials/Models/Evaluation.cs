@@ -43,5 +43,13 @@ namespace PsychoMetria.Materials.Models
         public int Scale_Id { get; set; }
         public int StartRange { get; set; }
         public int EndRange { get; set; }
+
+        public void Overwrite(Evaluation evaluation)
+        {
+            Evaluation_Title = evaluation.Evaluation_Title;
+            Evaluation_Description = evaluation.Evaluation_Description;
+            StartRange = evaluation.StartRange;
+            EndRange = evaluation.EndRange;
+        }
     }
 }

@@ -46,5 +46,11 @@ namespace PsychoMetria.Materials.Models
             Scale_Title = scale_title;
             Scale_Description = scale_description;
         }
+        public void Overwrite(Scale scale)
+        {
+            Scale_Title = scale.Scale_Title;
+            Scale_Description = scale.Scale_Description;
+            Evaluations = scale.Evaluations;
+        }
     }
 }
