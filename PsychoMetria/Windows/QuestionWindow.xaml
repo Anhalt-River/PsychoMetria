@@ -1,11 +1,11 @@
-﻿<Window x:Class="PsychoMetria.Windows.ScaleWindow"
+﻿<Window x:Class="PsychoMetria.Windows.QuestionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PsychoMetria.Windows"
         mc:Ignorable="d"
-        Title="Окно шкалы тестирования" Height="550" Width="900"
+        Title="Окно вопроса тестирования" Height="550" Width="900"
         Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -44,7 +44,7 @@
                     </Style.Triggers>
                 </Style>
             </Button.Style>
-            
+
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Основная информация"/>
                 <Canvas Margin="0" Height="2"
@@ -61,7 +61,7 @@
         </Button>
 
         <Button Grid.Column="1"
-                x:Name="EvaluationBut" Click="EvaluationBut_Click"
+                x:Name="AnswersBut" Click="AnswersBut_Click"
                 Background="White"
                 ToolTipService.InitialShowDelay="100">
             <Button.Resources>
@@ -89,21 +89,21 @@
             </Button.Style>
 
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Оценки"/>
+                <TextBlock Text="Ответы"/>
                 <Canvas Margin="0" Height="2"
-                        x:Name="EvaluationUnderline"
+                        x:Name="AnswerUnderline"
                         Visibility="Collapsed"
                         Background="MidnightBlue"/>
             </StackPanel>
 
             <Button.ToolTip>
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Открыть таблицу оценок"/>
+                    <TextBlock Text="Открыть таблицу ответов"/>
                 </StackPanel>
             </Button.ToolTip>
         </Button>
 
-        <StackPanel Visibility="Visible"
+        <StackPanel Visibility="Collapsed"
                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                     x:Name="MainInfoPanel"
                     Orientation="Vertical"
@@ -111,6 +111,89 @@
             <StackPanel Margin="0" HorizontalAlignment="Left">
                 <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
                     <TextBlock Text="Название"
+                               Margin="5, 0, 0, 0"/>
+                    <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="LightBlue"/>
+                                        <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                        <TextBlock.ToolTip>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Уникальное название для вопроса. При его отсутствии в названии будет отображены первые несколько слов описания"/>
+                                <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
+                            </StackPanel>
+                        </TextBlock.ToolTip>
+                                </TextBlock>
+                </StackPanel>
+                <TextBox Text=""
+                         x:Name="TitleBox" LostFocus="TitleBox_LostFocus"
+                         Margin="0, 5, 0, 0"/>
+            </StackPanel>
+
+            <StackPanel Margin="0, 10, 0, 0" HorizontalAlignment="Left">
+                <StackPanel Margin="0" Orientation="Horizontal" 
+                                        HorizontalAlignment="Left">
+                    <TextBlock Text="Тип вопроса" 
+                                           Margin="5, 0, 0, 0"/>
+                    <TextBlock Text="*" Foreground="OrangeRed" 
+                                           Margin="5, 0, 0, 0"/>
+                    <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                           Margin="5, 0, 0, 0" FontSize="20"
+                                           FontFamily="Vernada"
+                                           ToolTipService.InitialShowDelay="100">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="LightBlue"/>
+                                        <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                        <TextBlock.ToolTip>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Определяет то, сколько возможных для выбора ответов может быть у вопроса"/>
+                            </StackPanel>
+                        </TextBlock.ToolTip>
+                                </TextBlock>
+                </StackPanel>
+                <ComboBox x:Name="QuestionTypeBox" SelectionChanged="QuestionTypeBox_SelectionChanged"
+                                      Width="Auto"
+                                      Margin="0, 5, 0, 0"
+                                      SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScaleTitle}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Margin="0, 10, 0, 0" HorizontalAlignment="Left">
+                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="Текст вопроса"
                                Margin="5, 0, 0, 0"/>
                     <TextBlock Text="*" Foreground="OrangeRed" 
                                            Margin="5, 0, 0, 0"/>
@@ -136,44 +219,7 @@
 
                         <TextBlock.ToolTip>
                             <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Уникальное название не может превышать размер в 100 символов"/>
-                                <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
-                            </StackPanel>
-                        </TextBlock.ToolTip>
-                                </TextBlock>
-                </StackPanel>
-                <TextBox Text=""
-                         x:Name="NameBox" LostFocus="NameBox_LostFocus"
-                         Margin="0, 5, 0, 0"/>
-            </StackPanel>
-
-            <StackPanel Margin="0" HorizontalAlignment="Left">
-                <StackPanel Margin="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBlock Text="Описание"
-                               Margin="5, 0, 0, 0"/>
-                    <TextBlock Text="(?)" Foreground="MidnightBlue" 
-                                           Margin="5, 0, 0, 0" FontSize="20"
-                                           FontFamily="Vernada"
-                                           ToolTipService.InitialShowDelay="100">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Foreground" Value="LightBlue"/>
-                                        <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                                        <Setter Property="RenderTransform">
-                                            <Setter.Value>
-                                                <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-
-                        <TextBlock.ToolTip>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Описание шкалы, которое разъясняет, что именно изучает данная шкала"/>
+                                <TextBlock Text="Описание вопроса, которое будет отображаться пользователю"/>
                                 <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
                             </StackPanel>
                         </TextBlock.ToolTip>
@@ -188,18 +234,18 @@
             </StackPanel>
         </StackPanel>
 
-        <ScrollViewer Visibility="Collapsed"
+        <ScrollViewer Visibility="Visible"
                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
-                      x:Name="EvaluationPanel"
+                      x:Name="AnswerPanel"
                       VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical"
                         HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                <TextBlock Text="Каждому диапазону значений шкалы можно дать свою оценку, с соответствующим наименованием и описанием, какие будут показаны пользователю. Диапазоны значений не должны пересекаться."
+                <TextBlock Text="(Пример подсказки)"
                        FontSize="15"
                        TextWrapping="WrapWithOverflow"/>
 
                 <Button HorizontalAlignment="Left"
-                        x:Name="AddNewEvaluationBut" Click="AddNewEvaluationBut_Click"
+                        x:Name="AddNewAnswerBut" Click="AddNewAnswerBut_Click"
                         Background="LightBlue" BorderThickness="2"
                         ToolTipService.InitialShowDelay="100"
                         Margin="0, 0, 10, 0">
@@ -226,11 +272,11 @@
                         </Style>
                     </Button.Style>
 
-                    <TextBlock Text="Добавить оценку" Margin="3"
+                    <TextBlock Text="Добавить ответ" Margin="3"
                                Foreground="Black"/>
                 </Button>
 
-                <ListView x:Name="EvaluationList"
+                <ListView x:Name="AnswerList"
                                   Margin="0, 10, 5, 0"
                                   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                   d:ItemsSource="{d:SampleData ItemCount=2}">
@@ -246,7 +292,6 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="120"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
@@ -259,23 +304,15 @@
 
                                     <ScrollViewer Grid.Row="1" Grid.Column="0"
                                                           VerticalScrollBarVisibility="Auto">
-                                        <TextBlock Text="{Binding Evaluation_Title}"
+                                        <TextBlock Text="{Binding Answer_Title}"
                                                    TextWrapping="Wrap"/>
                                     </ScrollViewer>
-
-                                    <TextBlock Grid.Row="0" Grid.Column="1"
-                                               Text="Диапазон оценки"
-                                               HorizontalAlignment="Center"/>
-
-                                    <TextBlock Grid.Row="1" Grid.Column="1"
-                                               Text="{Binding RangeOfValuesString}"
-                                               HorizontalAlignment="Center"/>
 
                                     <StackPanel Grid.Row="0" Grid.Column="2"
                                                         Grid.RowSpan="2"
                                                         Orientation="Horizontal">
                                         <Button Width="40"  Opacity="0.8"
-                                                        x:Name="EditEvaluationBut" Click="EditEvaluationBut_Click"
+                                                        x:Name="EditAnswerBut" Click="EditAnswerBut_Click"
                                                         Background="White">
                                             <Button.Resources>
                                                 <Style TargetType="Border">
@@ -286,12 +323,12 @@
                                             <Image Source="/Materials/Images/edit_icon.png"/>
 
                                             <Button.ToolTip>
-                                                <TextBlock Text="Отредактировать оценку"/>
+                                                <TextBlock Text="Отредактировать ответ"/>
                                             </Button.ToolTip>
                                         </Button>
 
                                         <Button Width="40"  Opacity="0.8"
-                                                        x:Name="DeleteEvaluationBut" Click="DeleteEvaluationBut_Click"
+                                                        x:Name="DeleteAnswerBut" Click="DeleteAnswerBut_Click"
                                                         Background="White">
                                             <Button.Resources>
                                                 <Style TargetType="Border">
@@ -303,7 +340,7 @@
 
                                             <Button.ToolTip>
                                                 <StackPanel Orientation="Vertical">
-                                                    <TextBlock Text="Удалить оценку"/>
+                                                    <TextBlock Text="Удалить ответ"/>
                                                 </StackPanel>
                                             </Button.ToolTip>
                                         </Button>
@@ -319,7 +356,7 @@
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Orientation="Horizontal">
-            <Button x:Name="CancelScaleBut" Click="CancelScaleBut_Click"
+            <Button x:Name="CancelQuestionBut" Click="CancelQuestionBut_Click"
                     Margin="5"
                     Background="Transparent"
                     ToolTipService.InitialShowDelay="100">
@@ -355,7 +392,7 @@
                 </Button.ToolTip>
             </Button>
 
-            <Button x:Name="SaveScaleBut" Click="SaveScaleBut_Click" 
+            <Button x:Name="SaveQuestionBut" Click="SaveQuestionBut_Click"
                     Margin="5"
                     Background="LightBlue"
                     ToolTipService.InitialShowDelay="100">

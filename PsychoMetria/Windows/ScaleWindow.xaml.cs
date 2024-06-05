@@ -63,7 +63,7 @@ namespace PsychoMetria.Windows
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            App.IsSettingsOpened = false;
+            App.IsScalesOpened = false;
             App.IsEvaluationOpened = false;
             App.Current.MainWindow.Activate();
         }
@@ -99,6 +99,24 @@ namespace PsychoMetria.Windows
         }
 
         private void AddNewEvaluationBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        
+
+
+        /// <summary>
+        /// Глобальные кнопки: отмена и сохранение данных
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void SaveScaleBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CancelScaleBut_Click(object sender, RoutedEventArgs e)
         {
 
         }

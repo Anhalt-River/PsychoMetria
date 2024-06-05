@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PsychoMetria.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,11 @@ namespace PsychoMetria.Pages
 
         private void BackToMainBut_Click(object sender, RoutedEventArgs e)
         {
+            var owned_windows = System.Windows.Application.Current.MainWindow.OwnedWindows;
+            foreach (var window in owned_windows)
+            {
+                (window as Window).Close();
+            }
             NavigationService.Navigate(new MainPage());
         }
 
@@ -106,7 +112,7 @@ namespace PsychoMetria.Pages
         /// 
         private void AddNewScaleBut_Click(object sender, RoutedEventArgs e)
         {
-
+            ScaleWindow scaleWindow = new ScaleWindow();
         }
         private void EditScaleBut_Click(object sender, RoutedEventArgs e)
         {
