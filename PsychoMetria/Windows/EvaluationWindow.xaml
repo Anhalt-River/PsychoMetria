@@ -174,8 +174,7 @@
                     </Style>
                 </Button.Style>
                 <TextBlock Text="Сохранить"
-                           FontSize="17" Margin="2"
-                           TextDecorations="Underline"/>
+                           FontSize="17" Margin="2"/>
 
                 <Button.ToolTip>
                     <StackPanel Orientation="Vertical">

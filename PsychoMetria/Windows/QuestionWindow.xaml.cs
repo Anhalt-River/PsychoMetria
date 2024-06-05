@@ -32,6 +32,13 @@ namespace PsychoMetria.Windows
                 App.IsQuestionOpened = true;
                 this.Owner = App.Current.MainWindow;
                 this.Show();
+
+                MainInfoUnderline.Visibility = Visibility.Visible;
+                ScaleUnderline.Visibility = Visibility.Collapsed;
+                AnswerUnderline.Visibility = Visibility.Collapsed;
+                MainInfoPanel.Visibility = Visibility.Visible;
+                ScalePanel.Visibility = Visibility.Collapsed;
+                AnswerPanel.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -48,7 +55,35 @@ namespace PsychoMetria.Windows
 
         private void MainInfoBut_Click(object sender, RoutedEventArgs e)
         {
+            MainInfoUnderline.Visibility = Visibility.Visible;
+            ScaleUnderline.Visibility = Visibility.Collapsed;
+            AnswerUnderline.Visibility = Visibility.Collapsed;
 
+            MainInfoPanel.Visibility = Visibility.Visible;
+            ScalePanel.Visibility = Visibility.Collapsed;
+            AnswerPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void ScaleBut_Click(object sender, RoutedEventArgs e)
+        {
+            MainInfoUnderline.Visibility = Visibility.Collapsed;
+            ScaleUnderline.Visibility = Visibility.Visible;
+            AnswerUnderline.Visibility = Visibility.Collapsed;
+
+            MainInfoPanel.Visibility = Visibility.Collapsed;
+            ScalePanel.Visibility = Visibility.Visible;
+            AnswerPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void AnswersBut_Click(object sender, RoutedEventArgs e)
+        {
+            MainInfoUnderline.Visibility = Visibility.Collapsed;
+            ScaleUnderline.Visibility = Visibility.Collapsed;
+            AnswerUnderline.Visibility = Visibility.Visible;
+
+            MainInfoPanel.Visibility = Visibility.Visible;
+            ScalePanel.Visibility = Visibility.Collapsed;
+            AnswerPanel.Visibility = Visibility.Collapsed;
         }
 
         private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
@@ -62,11 +97,6 @@ namespace PsychoMetria.Windows
         }
 
         private void QuestionTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void AnswersBut_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -104,6 +134,27 @@ namespace PsychoMetria.Windows
         }
 
         private void CancelQuestionBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AttachNewScale_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// Функции прикрепления и открепления шкал
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToAttachedStatusBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FromAttachedStatusBut_Click(object sender, RoutedEventArgs e)
         {
 
         }

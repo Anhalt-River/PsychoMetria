@@ -11,6 +11,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
@@ -59,8 +60,52 @@
                 </StackPanel>
             </Button.ToolTip>
         </Button>
-
+        
         <Button Grid.Column="1"
+                x:Name="ScaleBut" Click="ScaleBut_Click"
+                Background="White"
+                ToolTipService.InitialShowDelay="100">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </Button.Resources>
+
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="MidnightBlue"/>
+                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Шкалы"/>
+                <Canvas Margin="0" Height="2"
+                        x:Name="ScaleUnderline"
+                        Visibility="Collapsed"
+                        Background="MidnightBlue"/>
+            </StackPanel>
+
+            <Button.ToolTip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Открыть таблицу прикрепленных шкал"/>
+                </StackPanel>
+            </Button.ToolTip>
+        </Button>
+
+
+        <Button Grid.Column="2"
                 x:Name="AnswersBut" Click="AnswersBut_Click"
                 Background="White"
                 ToolTipService.InitialShowDelay="100">
@@ -104,7 +149,7 @@
         </Button>
 
         <StackPanel Visibility="Collapsed"
-                    Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                    Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                     x:Name="MainInfoPanel"
                     Orientation="Vertical"
                     VerticalAlignment="Top" HorizontalAlignment="Stretch">
@@ -235,14 +280,266 @@
         </StackPanel>
 
         <ScrollViewer Visibility="Visible"
-                      Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                      Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
+                      x:Name="ScalePanel"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="3"
+                               TextWrapping="Wrap"
+                               Text="Прикрепленные шкалы будут отслеживаться в ответах данного вопроса. Без прикрепления вопрос и ответ на него не будут нести никакого смысла, а шкала - не получит прогресс в ходе тестирования. Все, что нужно сделать для перенесения шкалы из доступного состояния в прикрепленное, это выбрать шкалу из списка и нажать на соответствующую стрелку меж таблицами"
+                               FontSize="15"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="Доступные шкалы" TextAlignment="Center"/>
+                    <ListView x:Name="AvailableScaleList"
+                              Grid.Column="0" Grid.Row="2"
+                              Margin="0, 10, 5, 0"
+                              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                  d:ItemsSource="{d:SampleData ItemCount=2}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="1"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="MidnightBlue" BorderThickness="1" Margin="3">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition MaxHeight="80"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                                       Text="Наименование"/>
+
+                                        <ScrollViewer Grid.Row="1" Grid.Column="0"
+                                                          VerticalScrollBarVisibility="Auto">
+                                            <TextBlock Text="{Binding Scale_Title}"
+                                                   TextWrapping="Wrap"/>
+                                        </ScrollViewer>
+
+                                        <StackPanel Grid.Row="0" Grid.Column="1"
+                                                    HorizontalAlignment="Left" Orientation="Horizontal">
+                                            <TextBlock Text="Макс.диапазон"/>
+
+                                            <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                                       Margin="5, 0, 0, 0" FontSize="20"
+                                                       FontFamily="Vernada"
+                                                       ToolTipService.InitialShowDelay="100">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Foreground" Value="LightBlue"/>
+                                                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                                                <Setter Property="RenderTransform">
+                                                                    <Setter.Value>
+                                                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+
+                                                <TextBlock.ToolTip>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Text="Максимальный диапазон оценок в данной шкале"/>
+                                                    </StackPanel>
+                                                </TextBlock.ToolTip>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="1"
+                                                       Text="{Binding MaxRange}"
+                                                   TextAlignment="Left"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1"
+                                Orientation="Vertical">
+                        <Button x:Name="ToAttachedStatusBut" Click="ToAttachedStatusBut_Click"
+                                Margin="5"
+                                Background="LightBlue"
+                                ToolTipService.InitialShowDelay="100">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="3"/>
+                                </Style>
+                            </Button.Resources>
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="MidnightBlue"/>
+                                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="→" FontSize="30" Margin="0"/>
+
+                            <Button.ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Прикрепить выбранную шкалу"/>
+                                </StackPanel>
+                            </Button.ToolTip>
+                        </Button>
+
+                        <Button x:Name="FromAttachedStatusBut" Click="FromAttachedStatusBut_Click"
+                                Margin="5"
+                                Background="LightSalmon"
+                                ToolTipService.InitialShowDelay="100"
+                                VerticalContentAlignment="Top">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="3"/>
+                                </Style>
+                            </Button.Resources>
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="MidnightBlue"/>
+                                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="←" FontSize="30" Margin="0"/>
+
+                            <Button.ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Открепить выбранную шкалу"/>
+                                </StackPanel>
+                            </Button.ToolTip>
+                        </Button>
+                    </StackPanel>
+
+
+                    <TextBlock Grid.Row="1" Grid.Column="2"
+                               Text="Прикрепленные шкалы" TextAlignment="Center"/>
+                    <ListView x:Name="AttachedScaleList"
+                              Grid.Column="2" Grid.Row="2"
+                              Margin="0, 10, 5, 0"
+                              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                  d:ItemsSource="{d:SampleData ItemCount=2}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="1"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="MidnightBlue" BorderThickness="1" Margin="3">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition MaxHeight="80"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                                       Text="Наименование"/>
+
+                                        <ScrollViewer Grid.Row="1" Grid.Column="0"
+                                                          VerticalScrollBarVisibility="Auto">
+                                            <TextBlock Text="{Binding Scale_Title}"
+                                                   TextWrapping="Wrap"/>
+                                        </ScrollViewer>
+
+                                        <StackPanel Grid.Row="0" Grid.Column="1"
+                                                    HorizontalAlignment="Left" Orientation="Horizontal">
+                                            <TextBlock Text="Макс.диапазон"/>
+
+                                            <TextBlock Text="(?)" Foreground="MidnightBlue" 
+                                                       Margin="5, 0, 0, 0" FontSize="20"
+                                                       FontFamily="Vernada"
+                                                       ToolTipService.InitialShowDelay="100">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Foreground" Value="LightBlue"/>
+                                                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                                                <Setter Property="RenderTransform">
+                                                                    <Setter.Value>
+                                                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+
+                                                <TextBlock.ToolTip>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock Text="Максимальный диапазон оценок в данной шкале"/>
+                                                    </StackPanel>
+                                                </TextBlock.ToolTip>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="1"
+                                                       Text="{Binding MaxRange}"
+                                                   TextAlignment="Left"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer Visibility="Collapsed"
+                      Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                       x:Name="AnswerPanel"
                       VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical"
                         HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                <TextBlock Text="(Пример подсказки)"
-                       FontSize="15"
-                       TextWrapping="WrapWithOverflow"/>
 
                 <Button HorizontalAlignment="Left"
                         x:Name="AddNewAnswerBut" Click="AddNewAnswerBut_Click"
@@ -353,7 +650,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2"
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="3"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Orientation="Horizontal">
             <Button x:Name="CancelQuestionBut" Click="CancelQuestionBut_Click"

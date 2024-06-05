@@ -19,5 +19,6 @@ namespace PsychoMetria
         public static bool IsScalesOpened = false;
         public static bool IsEvaluationOpened = false;
         public static bool IsQuestionOpened = false;
+        public static bool IsAnswerOpened = false;
     }
 }

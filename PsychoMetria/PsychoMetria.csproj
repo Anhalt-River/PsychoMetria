@@ -62,6 +62,9 @@
     <Compile Include="Pages\QuestionnairePage.xaml.cs">
       <DependentUpon>QuestionnairePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AnswerWindow.xaml.cs">
+      <DependentUpon>AnswerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EvaluationWindow.xaml.cs">
       <DependentUpon>EvaluationWindow.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AnswerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
