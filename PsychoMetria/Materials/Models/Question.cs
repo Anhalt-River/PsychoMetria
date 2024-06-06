@@ -51,11 +51,16 @@ namespace PsychoMetria.Materials.Models
             QuestionType = new QuestionType(questionType_Id);
         }
 
-        public void Overwrite(Question question)
+        public Question()
         {
-            Question_Title = question.Question_Title;
-            Question_Text = question.Question_Text;
-            QuestionType = question.QuestionType;
+            QuestionType = new QuestionType(1);
+        }
+
+        public void Overwrite(string question_title, string question_text, int questionType)
+        {
+            Question_Title = question_title;
+            Question_Text = question_text;
+            QuestionType = new QuestionType(questionType);
         }
     }
 }

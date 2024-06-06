@@ -26,10 +26,10 @@ namespace PsychoMetria.Materials.Models
         }
         public int Question_Id { get; set; } = -1;
 
-        public void Overwrite(Answer answer)
+        public void Overwrite(string answer_text, int questionId)
         {
-            Answer_Text = answer.Answer_Text;
-            Question_Id = answer.Question_Id;
+            Answer_Text = answer_text;
+            Question_Id = questionId;
         }
     }
 }

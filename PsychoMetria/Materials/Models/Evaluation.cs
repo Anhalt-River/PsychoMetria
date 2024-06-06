@@ -45,12 +45,12 @@ namespace PsychoMetria.Materials.Models
         public int EndRange { get; set; } = 0;
         public string RangeOfValuesString { get; set; } = ("От 0 и До 0");
 
-        public void Overwrite(Evaluation evaluation)
+        public void Overwrite(string evaluation_title, string evaluation_description, int start_range, int end_range)
         {
-            Evaluation_Title = evaluation.Evaluation_Title;
-            Evaluation_Description = evaluation.Evaluation_Description;
-            StartRange = evaluation.StartRange;
-            EndRange = evaluation.EndRange;
+            Evaluation_Title = evaluation_title;
+            Evaluation_Description = evaluation_description;
+            StartRange = start_range;
+            EndRange = end_range;
 
             RangeOfValuesString = ($"От {StartRange} и До {EndRange}");
         }

@@ -34,16 +34,17 @@ namespace PsychoMetria.Materials.Models
         }
 
         /// <summary>
+        /// ANSWER
         /// Методы ответа
         /// </summary>
         /// <param name="answer"></param>
         /// <param name="questionId"></param>
-        public Answer AddNewAnswer(Answer answer, int questionId)
+        public void AddNewAnswer(int questionId)
         {
+            Answer answer = new Answer();
             answer.Answer_Id = all_AnswersList.Count;
             answer.Question_Id = questionId;
             all_AnswersList.Add(answer);
-            return answer;
         }
 
         public void DeleteAnswer(Answer answer)
@@ -67,11 +68,10 @@ namespace PsychoMetria.Materials.Models
             }
         }
 
-        public Answer EditAnswer(Answer answer)
+        public void EditAnswer(int answerId, string answer_text, int questionId)
         {
-            var old_answer = all_AnswersList.FirstOrDefault(x => x.Answer_Id == answer.Answer_Id);
-            old_answer.Overwrite(answer);
-            return old_answer;
+            var old_answer = all_AnswersList.FirstOrDefault(x => x.Answer_Id == answerId);
+            old_answer.Overwrite(answer_text, questionId);
         }
 
         public List<Answer> TakeAllAnswers(int questionId)
@@ -84,11 +84,12 @@ namespace PsychoMetria.Materials.Models
 
 
         /// <summary>
+        /// INFLUENCE
         /// Методы влияний ответов
         /// </summary>
         /// <param name="answerInfluence"></param>
         /// <param name="answerId"></param>
-        public AnswerInfluence AddNewAnswerInfluence(AnswerInfluence answerInfluence, int answerId)
+        private AnswerInfluence addNewAnswerInfluence(AnswerInfluence answerInfluence, int answerId)
         {
             answerInfluence.AnswerInfluence_Id = all_AnswerInfluencesList.Count;
             answerInfluence.Answer_Id = answerId;
@@ -98,7 +99,12 @@ namespace PsychoMetria.Materials.Models
 
         public void DeleteAnswerInfluence(AnswerInfluence answerInfluence)
         {
-            int deleting_index = answerInfluence.AnswerInfluence_Id;
+            if (answerInfluence.AnswerInfluence_Id == null)
+            {
+                return;
+            }
+
+            int deleting_index = Convert.ToInt32(answerInfluence.AnswerInfluence_Id);
             for (int i = deleting_index + 1; i < all_AnswerInfluencesList.Count; i++)
             {
                 var changed = all_AnswerInfluencesList.Where(x => x.AnswerInfluence_Id == i).FirstOrDefault();
@@ -124,16 +130,39 @@ namespace PsychoMetria.Materials.Models
             }
         }
 
-        public AnswerInfluence EditAnswer(AnswerInfluence answerInfluence)
+        public void EditAnswer(AnswerInfluence answerInfluence, int answerId)
         {
             var old_answerInfluence = all_AnswerInfluencesList.FirstOrDefault(x => x.AnswerInfluence_Id == answerInfluence.AnswerInfluence_Id);
-            old_answerInfluence.Overwrite(answerInfluence);
-            return old_answerInfluence;
+            if (old_answerInfluence == null) //Происходит создание влияния для ответа
+            {
+                addNewAnswerInfluence(answerInfluence, answerId);
+            }
+            else
+            {
+                old_answerInfluence.Overwrite(answerInfluence);
+            }
         }
 
-        public List<AnswerInfluence> TakeAllInfluences(int answerId)
+        public List<AnswerInfluence> TakeAllInfluences(Answer answer)
         {
-            var all_influenceForAnswer = all_AnswerInfluencesList.Where(x => x.Answer_Id == answerId).ToList();
+            List<AnswerInfluence> all_influenceForAnswer = new List<AnswerInfluence>();
+
+            var scaleAttaches = all_ScaleAttachesList.Where(x=> x.Question_Id == answer.Question_Id).ToList();
+            foreach (var scaleAttach in scaleAttaches) 
+            {
+                var search_influence = all_AnswerInfluencesList.FirstOrDefault(x=> x.ScaleAttach_Id == scaleAttach.Attach_Id 
+                    && x.Answer_Id == answer.Answer_Id);
+                if (search_influence == null)
+                {
+                    AnswerInfluence answerInfluence = new AnswerInfluence(answer.Answer_Id, scaleAttach.Attach_Id);
+                    all_influenceForAnswer.Add(answerInfluence);
+                }
+                else
+                {
+                    all_influenceForAnswer.Add(search_influence);
+                }
+            }
+
             return all_influenceForAnswer;
         }
 
@@ -141,15 +170,16 @@ namespace PsychoMetria.Materials.Models
 
 
         /// <summary>
+        /// QUESTION
         /// Методы вопроса
         /// </summary>
         /// <param name="answer"></param>
         /// <param name="questionId"></param>    
-        public Question AddNewQuestion(Question question)
+        public void AddNewQuestion()
         {
+            Question question = new Question();
             question.Question_Id = all_QuestionsList.Count;
             all_QuestionsList.Add(question);
-            return question;
         }
 
         public void DeleteQuestion(Question question)
@@ -163,17 +193,23 @@ namespace PsychoMetria.Materials.Models
             all_QuestionsList.Remove(question);
 
             deleteSubordinateAnswers(question.Question_Id);
-            deleteSubordinateScaleAttaches(question.Question_Id);
+            deleteSubordinateScaleAttaches_byQuestion(question.Question_Id);
         }
-
-        public Question EditQuestion(Question question)
+        private void deleteAllQuestions()
         {
-            var old_question = all_QuestionsList.FirstOrDefault(x => x.Question_Id == question.Question_Id);
-            old_question.Overwrite(question);
-            return old_question;
+            foreach (var question in all_QuestionsList)
+            {
+                DeleteQuestion(question);
+            }
         }
 
-        public List<Question> TakeAllQuestions(int questionId)
+        public void EditQuestion(int questionId, string question_title, string question_text, int questionType)
+        {
+            var old_question = all_QuestionsList.FirstOrDefault(x => x.Question_Id == questionId);
+            old_question.Overwrite(question_title, question_text, questionType);
+        }
+
+        public List<Question> TakeAllQuestions()
         {
             return all_QuestionsList;
         }
@@ -182,16 +218,17 @@ namespace PsychoMetria.Materials.Models
 
 
         /// <summary>
+        /// EVALUATION
         /// Методы оценок
         /// </summary>
         /// <param name="answerInfluence"></param>
         /// <param name="answerId"></param>
-        public Evaluation AddNewEvaluation(Evaluation evaluation, int scaleId)
+        public void AddNewEvaluation(int scaleId)
         {
+            Evaluation evaluation = new Evaluation();
             evaluation.Evaluation_Id = all_EvaluationsList.Count;
             evaluation.Scale_Id = scaleId;
             all_EvaluationsList.Add(evaluation);
-            return evaluation;
         }
 
         public void DeleteEvaluation(Evaluation evaluation)
@@ -214,11 +251,10 @@ namespace PsychoMetria.Materials.Models
             }
         }
 
-        public Evaluation EditEvaluation(Evaluation evaluation)
+        public void EditEvaluation(int evaluationId, string evaluation_title, string evaluation_description, int start_range, int end_range)
         {
-            var old_evaluation = all_EvaluationsList.FirstOrDefault(x => x.Evaluation_Id == evaluation.Evaluation_Id);
-            old_evaluation.Overwrite(evaluation);
-            return old_evaluation;
+            var old_evaluation = all_EvaluationsList.FirstOrDefault(x => x.Evaluation_Id == evaluationId);
+            old_evaluation.Overwrite(evaluation_title, evaluation_description, start_range, end_range);
         }
 
         public List<Evaluation> TakeAllEvaluations(int scaleId)
@@ -232,6 +268,7 @@ namespace PsychoMetria.Materials.Models
 
 
         /// <summary>
+        /// SCALE_ATTACH
         /// Методы прикрепления шкалы
         /// </summary>
         /// <param name="answerInfluence"></param>
@@ -260,9 +297,17 @@ namespace PsychoMetria.Materials.Models
             deleteSubordinateInfluences_byScaleAttach(scaleAttach_Id);
         }
 
-        private void deleteSubordinateScaleAttaches(int questionId)
+        private void deleteSubordinateScaleAttaches_byQuestion(int questionId)
         {
             var all_subordinates = all_ScaleAttachesList.Where(x => x.Question_Id == questionId).ToList();
+            foreach (var subordinate in all_subordinates)
+            {
+                DeleteScaleAttach(subordinate.Attach_Id);
+            }
+        }
+        private void deleteSubordinateScaleAttaches_byScale(int scaleId)
+        {
+            var all_subordinates = all_ScaleAttachesList.Where(x => x.Scale_Id == scaleId).ToList();
             foreach (var subordinate in all_subordinates)
             {
                 DeleteScaleAttach(subordinate.Attach_Id);
@@ -307,9 +352,49 @@ namespace PsychoMetria.Materials.Models
 
 
         /// <summary>
+        /// SCALE
         /// Методы шкал
         /// </summary>
         /// <param name="answerInfluence"></param>
-        /// <param name="answerId"></param>
+        /// <param name="answerId"></param>    
+        public Scale AddNewScale(Scale scale)
+        {
+            scale.Scale_Id = all_ScalesList.Count;
+            all_ScalesList.Add(scale);
+            return scale;
+        }
+
+        public void DeleteScale(Scale scale)
+        {
+            int deleting_index = scale.Scale_Id;
+            for (int i = deleting_index + 1; i < all_ScalesList.Count; i++)
+            {
+                var changed = all_ScalesList.Where(x => x.Scale_Id == i).FirstOrDefault();
+                changed.Scale_Id--;
+            }
+            all_ScalesList.Remove(scale);
+
+            deleteSubordinateScaleAttaches_byScale(scale.Scale_Id);
+            deleteSubordinateEvaluations(scale.Scale_Id);
+        }
+        private void deleteAllScales()
+        {
+            foreach (var scale in all_ScalesList)
+            {
+                DeleteScale(scale);
+            }
+        }
+
+        public Scale EditScale(Scale scale)
+        {
+            var old_scale = all_ScalesList.FirstOrDefault(x => x.Scale_Id == scale.Scale_Id);
+            old_scale.Overwrite(scale);
+            return old_scale;
+        }
+
+        public List<Scale> TakeAllScales()
+        {
+            return all_ScalesList;
+        }
     }
 }

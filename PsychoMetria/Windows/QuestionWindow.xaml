@@ -148,7 +148,7 @@
         </Button>
 
         
-        <StackPanel Visibility="Collapsed"
+        <StackPanel Visibility="Visible"
                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                     x:Name="MainInfoPanel"
                     Orientation="Vertical"
@@ -279,7 +279,7 @@
             </StackPanel>
         </StackPanel>
 
-        <ScrollViewer Visibility="Visible"
+        <ScrollViewer Visibility="Collapsed"
                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                       x:Name="ScalePanel"
                       VerticalScrollBarVisibility="Auto">
@@ -653,9 +653,9 @@
         <StackPanel Grid.Row="1" Grid.ColumnSpan="3"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Orientation="Horizontal">
-            <Button x:Name="CancelQuestionBut" Click="CancelQuestionBut_Click"
+            <Button x:Name="DeleteQuestionBut" 
                     Margin="5"
-                    Background="Transparent"
+                    Background="LightSalmon"
                     ToolTipService.InitialShowDelay="100">
                 <Button.Resources>
                     <Style TargetType="Border">
@@ -680,11 +680,11 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
-                <TextBlock Text="Отмена"/>
+                <TextBlock Text="Удалить"/>
 
                 <Button.ToolTip>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Сохранить изменения, отобразив их в общем списке шкал"/>
+                        <TextBlock Text="Удалить вопрос"/>
                     </StackPanel>
                 </Button.ToolTip>
             </Button>

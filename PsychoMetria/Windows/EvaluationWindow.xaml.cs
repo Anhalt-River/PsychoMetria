@@ -72,5 +72,15 @@ namespace PsychoMetria.Windows
         {
 
         }
+
+        private void SaveEvaluationBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteEvaluationBut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
