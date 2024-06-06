@@ -34,5 +34,17 @@ namespace PsychoMetria.Properties {
                 this["IsLoadCanceled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsDeveloperHidden {
+            get {
+                return ((bool)(this["IsDeveloperHidden"]));
+            }
+            set {
+                this["IsDeveloperHidden"] = value;
+            }
+        }
     }
 }

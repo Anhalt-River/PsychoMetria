@@ -38,11 +38,22 @@ namespace PsychoMetria.Pages
             BasicLoader();
         }
 
-        private void BasicLoader()
+        public void BasicLoader()
         {
             UserMenuBoard.Width = 0;
             DeveloperMenuBoard.Width = 0;
             ModeMessageBoard.Height = 0;
+
+            if (PsychoMetria.Properties.Settings.Default.IsDeveloperHidden)
+            {
+                DeveloperToolKitBut.Visibility = Visibility.Collapsed;
+                UserModeBut.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                DeveloperToolKitBut.Visibility = Visibility.Visible;
+                UserModeBut.Visibility = Visibility.Visible;
+            }
         }
 
         private void QuestionnaireStartBut_Click(object sender, RoutedEventArgs e)
@@ -51,7 +62,7 @@ namespace PsychoMetria.Pages
         }
 
         private void ListLoader()
-        {
+        {/*
             string path = $"{AppDomain.CurrentDomain.BaseDirectory}Data" + "\\Test.txt";
             //MessageBox.Show($"{path}");
 
@@ -60,7 +71,8 @@ namespace PsychoMetria.Pages
             questionnaires.Add(questionnaire);
 
             QuestionnaireList.ItemsSource = null;
-            QuestionnaireList.ItemsSource = questionnaires;
+            QuestionnaireList.ItemsSource = questionnaires;*/
+
         }
 
         private void UserToolKitBut_Click(object sender, RoutedEventArgs e)

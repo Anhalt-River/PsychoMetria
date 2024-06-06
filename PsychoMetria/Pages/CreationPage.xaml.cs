@@ -1,4 +1,6 @@
-﻿using PsychoMetria.Windows;
+﻿using PsychoMetria.Materials.Models;
+using PsychoMetria.Materials.Models.SupportModels;
+using PsychoMetria.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,31 +24,58 @@ namespace PsychoMetria.Pages
     /// </summary>
     public partial class CreationPage : Page
     {
-        public CreationPage()
+        public Questionnaire OpenedQuestionnaire = new Questionnaire();
+        private bool _isCreatingPage = true;
+        public CreationPage() //Если идет создание теста с нуля
         {
             InitializeComponent();
             BasicLoader();
-            List<string> KZA = new List<string>();
-            KZA.Add("sdsdsds");
-            KZA.Add("sdsdsdssssdsdsdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssdsdsdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-            KZA.Add("sdsdsds");
-            KZA.Add("sdsdsds");
-            KZA.Add("sdsdsds");
-            KZA.Add("sdsdsds");
-            KZA.Add("sdsdsds");
-            KZA.Add("sdsdsds");
-            KZA.Add("sdsdsds");
-            ScalesList.ItemsSource = KZA;
-            QuestionsList.ItemsSource = KZA;
         }
 
+        private List<EstimateType> all_estimateTypes;
         private void BasicLoader()
         {
             MainInfoPanel.Visibility = Visibility.Collapsed;
             ScalesPanel.Visibility = Visibility.Collapsed;
             QuestionsPanel.Visibility = Visibility.Collapsed;
+
+            all_estimateTypes = OpenedQuestionnaire.TakeAllEstimateTypes();
+            EstimateBox.ItemsSource = all_estimateTypes;
         }
 
+        public CreationPage(Questionnaire questionnaire) //Если идет создание теста с нуля
+        {
+            InitializeComponent();
+            BasicLoader();
+
+            OpenedQuestionnaire = questionnaire;
+            EditLoader();
+        }
+
+        private void EditLoader()
+        {
+            NameBox.Text = OpenedQuestionnaire.Name;
+            if (OpenedQuestionnaire.EstimateType != null)
+            {
+                EstimateBox.SelectedItem = all_estimateTypes.FirstOrDefault(x=> x.Estimate_Id == OpenedQuestionnaire.EstimateType.Estimate_Id);
+                _isEstimateNormal = true;
+            }
+            DescriptionBox.Text = OpenedQuestionnaire.Name;
+
+            RefreshScaleList();
+            RefreshQuestionList();
+
+            if (OpenedQuestionnaire.IsMixedQuestions)
+            {
+                MixUpQuestionsCheckBox.IsChecked = false;
+            }
+            else
+            {
+                MixUpQuestionsCheckBox.IsChecked = true;
+            }
+
+            _isCreatingPage = false;
+        }
 
         private void BackToMainBut_Click(object sender, RoutedEventArgs e)
         {
@@ -58,88 +87,204 @@ namespace PsychoMetria.Pages
             NavigationService.Navigate(new MainPage());
         }
 
-        private void CreateQuestionnaireBut_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ScaleBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void CleanAllBut_Click(object sender, RoutedEventArgs e)
         {
-
+            var result = MessageBox.Show("Вы уверены, что хотите полностью удалить все данные в тесте?", "Полная очистка данных",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+            
+            if (_isCreatingPage)
+            {
+                NavigationService.Navigate(new CreationPage());
+            }
+            else
+            {
+                OpenedQuestionnaire.ClearAll();
+                NavigationService.Navigate(new CreationPage(OpenedQuestionnaire));
+            }
         }
 
+        private void searchAndCloseWindow(string window_name)
+        {
+            var owned_windows = System.Windows.Application.Current.MainWindow.OwnedWindows;
+            foreach (var window in owned_windows)
+            {
+                var real_window = window as Window;
+                if (real_window.Name == window_name)
+                {
+                    real_window.Close();
+                }
+            }
+        }
+
+        private void CreateQuestionnaireBut_Click(object sender, RoutedEventArgs e)
+        {
+            //РАБОТА С ФАЙЛАМИ И ПАПКАМИ + ПРОВЕРКА НЕОБХОДИМЫХ ЗНАЧЕНИЙ
+        }
+
+        /// <summary>
+        /// ОБЩАЯ ИНФОРМАЦИЯ
+        /// Методы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private bool _isNameNormal = false;
         private void NameBox_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (NameBox.Text.Length > 100)
+            {
+                MessageBox.Show("Заданное название теста превышает размер в 100 символов!", "Ошибка в имени", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                _isNameNormal = false;
+                NameBox.Text = "";
+                return;
+            }
+            if (NameBox.Text.Contains('\\') || NameBox.Text.Contains('/'))
+            {
+                MessageBox.Show("Заданное название теста содержит в себе недопустимые символы!", "Ошибка в имени",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                _isNameNormal = false;
+                NameBox.Text = "";
+                return;
+            }
 
+            _isNameNormal = true;
+        }
+
+        private bool _isEstimateNormal = false;
+        private void EstimateBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var estimateType = EstimateBox.SelectedItem as EstimateType;
+            OpenedQuestionnaire.ChooseEstimateType(estimateType);
+            _isEstimateNormal = true;
+        }
+
+        private bool _isDescriptionNormal = false;
+        private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (DescriptionBox.Text.Contains('\\') || DescriptionBox.Text.Contains('/'))
+            {
+                MessageBox.Show("Заданное описание теста содержит в себе недопустимые символы!", "Ошибка в описании",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                _isDescriptionNormal = false;
+                DescriptionBox.Text = "";
+                return;
+            }
+
+            _isDescriptionNormal = true;
+        }
+
+
+
+
+        /// <summary>
+        /// ПРЕДМЕТ ТЕСТИРОВАНИЯ
+        /// Методы шкал
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void RefreshScaleList()
+        {
+            ScalesList.ItemsSource = null;
+            ScalesList.ItemsSource = OpenedQuestionnaire.TakeAllScales();
+        }
+
+        private void AddNewScaleBut_Click(object sender, RoutedEventArgs e)
+        {
+            var created_scale = OpenedQuestionnaire.AddNewScale();
+            searchAndCloseWindow("OpenedScaleWindow");
+            ScaleWindow scaleWindow = new ScaleWindow(created_scale);
+            RefreshScaleList();
+        }
+        private void EditScaleBut_Click(object sender, RoutedEventArgs e)
+        {
+            var selected_item = (sender as Button).DataContext as Scale;
+            searchAndCloseWindow("OpenedScaleWindow");
+            ScaleWindow scaleWindow = new ScaleWindow(selected_item, "");
+            RefreshScaleList();
+        }
+        private void DeleteScaleBut_Click(object sender, RoutedEventArgs e)
+        {
+            var selected_item = (sender as Button).DataContext as Scale;
+            searchAndCloseWindow("OpenedScaleWindow");
+            OpenedQuestionnaire.DeleteScale(selected_item);
+            RefreshScaleList();
+
+            MessageBox.Show("Удаление шкалы прошло успешно!", "Процесс завершен",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// ВОПРОСЫ ТЕСТИРОВАНИЯ
+        /// Базовые методы
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>   
+        public void RefreshQuestionList()
+        {
+            QuestionList.ItemsSource = null;
+            QuestionList.ItemsSource = OpenedQuestionnaire.TakeAllQuestions();
         }
 
         private void AddNewQuestionBut_Click(object sender, RoutedEventArgs e)
         {
-
+            var created_question = OpenedQuestionnaire.AddNewQuestion();
+            searchAndCloseWindow("OpenedQuestionWindow");
+            QuestionWindow questionWindow = new QuestionWindow(created_question);
+            RefreshQuestionList();
         }
 
         private void EditQuestionBut_Click(object sender, RoutedEventArgs e)
         {
-
+            var selected_item = (sender as Button).DataContext as Question;
+            searchAndCloseWindow("OpenedQuestionWindow");
+            QuestionWindow questionWindow = new QuestionWindow(selected_item);
+            RefreshQuestionList();
         }
 
         private void DeleteQuestionBut_Click(object sender, RoutedEventArgs e)
         {
+            var selected_item = (sender as Button).DataContext as Question;
+            searchAndCloseWindow("OpenedQuestionWindow");
+            OpenedQuestionnaire.DeleteQuestion(selected_item);
+            RefreshQuestionList();
 
+            MessageBox.Show("Удаление вопроса прошло успешно!", "Процесс завершен",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+
+        /// Методы перемешки <summary>
+        /// 
+        /// </summary>
         private void UpQuestionBut_Click(object sender, RoutedEventArgs e)
         {
-
+            var selected_item = (sender as Button).DataContext as Question;
+            searchAndCloseWindow("OpenedQuestionWindow");
+            OpenedQuestionnaire.MoveQuestion(selected_item, "Up");
+            RefreshQuestionList();
         }
-
         private void DownQuestionBut_Click(object sender, RoutedEventArgs e)
         {
-
+            var selected_item = (sender as Button).DataContext as Question;
+            searchAndCloseWindow("OpenedQuestionWindow");
+            OpenedQuestionnaire.MoveQuestion(selected_item, "Down");
+            RefreshQuestionList();
         }
 
-
-        /// <summary>
-        /// Функции для Шкал
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// 
-        private void AddNewScaleBut_Click(object sender, RoutedEventArgs e)
-        {
-            ScaleWindow scaleWindow = new ScaleWindow();
-        }
-        private void EditScaleBut_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DeleteScaleBut_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// Перемешать вопросы
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        bool _isMixUp = false;
         private void MixUpQuestionsCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            _isMixUp = true;
-
+        {                                                   
+            OpenedQuestionnaire.IsMixedQuestions = true;
             App.Current.Resources["DefaultStackPanel"] = App.Current.Resources["UnvisibleStackPanel"];
         }
 
         private void MixUpQuestionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            _isMixUp = false;
+            OpenedQuestionnaire.IsMixedQuestions = false;
             App.Current.Resources["DefaultStackPanel"] = App.Current.Resources["VisibleStackPanel"];
         }
 

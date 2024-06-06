@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PsychoMetria.Materials.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,13 +20,14 @@ namespace PsychoMetria.Windows
     /// </summary>
     public partial class QuestionWindow : Window
     {
-        public QuestionWindow()
+        private Question _taked_question;
+        public QuestionWindow(Question question)
         {
             InitializeComponent();
-            BasicLoader();
+            BasicLoader(question);
         }
 
-        private void BasicLoader()
+        private void BasicLoader(Question question)
         {
             if (!App.IsQuestionOpened)
             {
@@ -39,6 +41,10 @@ namespace PsychoMetria.Windows
                 MainInfoPanel.Visibility = Visibility.Visible;
                 ScalePanel.Visibility = Visibility.Collapsed;
                 AnswerPanel.Visibility = Visibility.Collapsed;
+
+                TitleBox.Text = question.Question_Title;
+                DescriptionBox.Text = question.Question_Text;
+                //ТИП ВОПРОСА НЕ УСТАНОВЛЕН
             }
             else
             {

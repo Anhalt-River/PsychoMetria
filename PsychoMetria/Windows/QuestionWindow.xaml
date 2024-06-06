@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PsychoMetria.Windows"
         mc:Ignorable="d"
         Title="Окно вопроса тестирования" Height="550" Width="900"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        x:Name="OpenedQuestionWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

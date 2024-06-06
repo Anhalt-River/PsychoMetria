@@ -45,7 +45,8 @@
 
                             <TextBlock.ToolTip>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Наименование оценки для пользователя"/>
+                                    <TextBlock Text="Уникальное наименование оценки для пользователя"/>
+                                    <TextBlock Text="Размер не должен превышать 150-и символов!"/>
                                     <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
                                 </StackPanel>
                             </TextBlock.ToolTip>
@@ -87,6 +88,7 @@
                                     <TextBlock Text="Диапазон, при попадании в который шкала под конец тестирования получит именно эту оценку"/>
                                     <TextBlock Text="Диапазоны не могут повторяться"/>
                                     <TextBlock Text="Принимаются только целочисленные значения"/>
+                                    <TextBlock Text="Диапазон считается От и До указанных значений включительно"/>
                                 </StackPanel>
                             </TextBlock.ToolTip>
                                 </TextBlock>

@@ -25,7 +25,7 @@ namespace PsychoMetria.Materials.Models
             }
         }
         private string _scale_description { get; set; }
-        private string Scale_Description
+        public string Scale_Description
         {
             get
             {
@@ -40,15 +40,18 @@ namespace PsychoMetria.Materials.Models
             }
         }
 
+        public Scale() { }
+
         public Scale(string scale_title, string scale_description)
         {
             Scale_Title = scale_title;
             Scale_Description = scale_description;
         }
-        public void Overwrite(Scale scale)
+
+        public void Overwrite(string scale_title, string scale_description)
         {
-            Scale_Title = scale.Scale_Title;
-            Scale_Description = scale.Scale_Description;
+            Scale_Title = scale_title;
+            Scale_Description = scale_description;
         }
     }
 }

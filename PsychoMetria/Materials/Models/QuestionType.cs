@@ -39,5 +39,6 @@ namespace PsychoMetria.Materials.Models
 
             return result;
         }
+        public QuestionType() {}
     }
 }

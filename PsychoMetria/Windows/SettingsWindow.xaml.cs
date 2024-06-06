@@ -72,6 +72,15 @@ namespace PsychoMetria.Windows
             App.Current.MainWindow.Activate();
         }
 
+        private void ReloadMainPage()
+        {
+            var mainPage = (((MainWindow)Application.Current.MainWindow).MainFrame.Content as MainPage);
+            if (mainPage != null)
+            {
+                mainPage.BasicLoader();
+            }
+        }
+
         private void LoaderCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             PsychoMetria.Properties.Settings.Default.IsLoadCanceled = false;
@@ -93,6 +102,32 @@ namespace PsychoMetria.Windows
             else
             {
                 LoaderCheckBox.IsChecked = true;
+            }
+        }
+
+        private void DevelopHideCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            PsychoMetria.Properties.Settings.Default.IsDeveloperHidden = true;
+            PsychoMetria.Properties.Settings.Default.Save();
+            ReloadMainPage();
+        }
+
+        private void DevelopHideCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            PsychoMetria.Properties.Settings.Default.IsDeveloperHidden = false;
+            PsychoMetria.Properties.Settings.Default.Save();
+            ReloadMainPage();
+        }
+
+        private void DevelopHideCheckBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (PsychoMetria.Properties.Settings.Default.IsDeveloperHidden)   //Если режим разработчика спрятан
+            {
+                DevelopHideCheckBox.IsChecked = true;
+            }
+            else
+            {
+                DevelopHideCheckBox.IsChecked = false;
             }
         }
     }

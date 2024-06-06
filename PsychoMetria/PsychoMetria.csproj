@@ -62,6 +62,7 @@
     <Compile Include="Materials\Models\QuestionType.cs" />
     <Compile Include="Materials\Models\Scale.cs" />
     <Compile Include="Materials\Models\ScaleAttach.cs" />
+    <Compile Include="Materials\Models\SupportModels\EstimateType.cs" />
     <Compile Include="Materials\Models\SupportModels\SupScaleAttach.cs" />
     <Compile Include="Pages\CreationPage.xaml.cs">
       <DependentUpon>CreationPage.xaml</DependentUpon>

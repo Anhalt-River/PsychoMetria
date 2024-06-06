@@ -44,6 +44,19 @@
                         <TextBlock Text="В отключенном состоянии экраны загрузки не появляются"/>
                     </StackPanel.ToolTip>
                 </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Opacity="3">
+                    <TextBlock Text="Спрятать режим разработчика:"/>
+
+                    <CheckBox x:Name="DevelopHideCheckBox"
+                              Checked="DevelopHideCheckBox_Checked" Unchecked="DevelopHideCheckBox_Unchecked"
+                              VerticalAlignment="Center"
+                              Loaded="DevelopHideCheckBox_Loaded"/>
+
+                    <StackPanel.ToolTip>
+                        <TextBlock Text="В спрятанном режиме кнопки и функционал для разработчиков тестов будут отсутствовать"/>
+                    </StackPanel.ToolTip>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>
