@@ -39,7 +39,6 @@ namespace PsychoMetria.Materials.Models
                 }
             }
         }
-        public List<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
 
         public Scale(string scale_title, string scale_description)
         {
@@ -50,7 +49,6 @@ namespace PsychoMetria.Materials.Models
         {
             Scale_Title = scale.Scale_Title;
             Scale_Description = scale.Scale_Description;
-            Evaluations = scale.Evaluations;
         }
     }
 }

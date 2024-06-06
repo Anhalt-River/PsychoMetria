@@ -148,7 +148,7 @@
         </Button>
 
         
-        <StackPanel Visibility="Visible"
+        <StackPanel Visibility="Collapsed"
                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                     x:Name="MainInfoPanel"
                     Orientation="Vertical"
@@ -279,7 +279,7 @@
             </StackPanel>
         </StackPanel>
 
-        <ScrollViewer Visibility="Collapsed"
+        <ScrollViewer Visibility="Visible"
                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                       x:Name="ScalePanel"
                       VerticalScrollBarVisibility="Auto">

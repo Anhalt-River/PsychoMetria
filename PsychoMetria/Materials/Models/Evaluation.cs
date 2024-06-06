@@ -41,8 +41,9 @@ namespace PsychoMetria.Materials.Models
             }
         }
         public int Scale_Id { get; set; }
-        public int StartRange { get; set; }
-        public int EndRange { get; set; }
+        public int StartRange { get; set; } = 0;
+        public int EndRange { get; set; } = 0;
+        public string RangeOfValuesString { get; set; } = ("От 0 и До 0");
 
         public void Overwrite(Evaluation evaluation)
         {
@@ -50,6 +51,8 @@ namespace PsychoMetria.Materials.Models
             Evaluation_Description = evaluation.Evaluation_Description;
             StartRange = evaluation.StartRange;
             EndRange = evaluation.EndRange;
+
+            RangeOfValuesString = ($"От {StartRange} и До {EndRange}");
         }
     }
 }
