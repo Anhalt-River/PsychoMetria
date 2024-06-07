@@ -149,7 +149,7 @@
         </Button>
 
         
-        <StackPanel Visibility="Visible"
+        <StackPanel Visibility="Collapsed"
                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                     x:Name="MainInfoPanel"
                     Orientation="Vertical"
@@ -181,6 +181,7 @@
                         <TextBlock.ToolTip>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="Уникальное название для вопроса. При его отсутствии в названии будет отображены первые несколько слов описания"/>
+                                <TextBlock Text="Максимальный размер - 150 символов"/>
                                 <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
                             </StackPanel>
                         </TextBlock.ToolTip>
@@ -535,7 +536,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <ScrollViewer Visibility="Collapsed"
+        <ScrollViewer Visibility="Visible"
                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                       x:Name="AnswerPanel"
                       VerticalScrollBarVisibility="Auto">
@@ -654,7 +655,7 @@
         <StackPanel Grid.Row="1" Grid.ColumnSpan="3"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Orientation="Horizontal">
-            <Button x:Name="DeleteQuestionBut" 
+            <Button x:Name="DeleteQuestionBut" Click="DeleteQuestionBut_Click" 
                     Margin="5"
                     Background="LightSalmon"
                     ToolTipService.InitialShowDelay="100">

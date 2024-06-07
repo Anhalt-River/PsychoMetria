@@ -83,12 +83,14 @@ namespace PsychoMetria.Materials.Models
         /// </summary>
         /// <param name="answer"></param>
         /// <param name="questionId"></param>
-        public void AddNewAnswer(int questionId)
+        public Answer AddNewAnswer(int questionId)
         {
             Answer answer = new Answer();
             answer.Answer_Id = _all_AnswersList.Count;
             answer.Question_Id = questionId;
             _all_AnswersList.Add(answer);
+
+            return answer;
         }
 
         public void DeleteAnswer(Answer answer)
@@ -174,7 +176,7 @@ namespace PsychoMetria.Materials.Models
             }
         }
 
-        public void EditAnswer(AnswerInfluence answerInfluence, int answerId)
+        public void EditAnswerInfluence(AnswerInfluence answerInfluence, int answerId)
         {
             var old_answerInfluence = _all_AnswerInfluencesList.FirstOrDefault(x => x.AnswerInfluence_Id == answerInfluence.AnswerInfluence_Id);
             if (old_answerInfluence == null) //Происходит создание влияния для ответа
@@ -194,11 +196,12 @@ namespace PsychoMetria.Materials.Models
             var scaleAttaches = _all_ScaleAttachesList.Where(x=> x.Question_Id == answer.Question_Id).ToList();
             foreach (var scaleAttach in scaleAttaches) 
             {
+                var search_scale = _all_ScalesList.Where(x=> x.Scale_Id == scaleAttach.Scale_Id).FirstOrDefault();
                 var search_influence = _all_AnswerInfluencesList.FirstOrDefault(x=> x.ScaleAttach_Id == scaleAttach.Attach_Id 
                     && x.Answer_Id == answer.Answer_Id);
                 if (search_influence == null)
                 {
-                    AnswerInfluence answerInfluence = new AnswerInfluence(answer.Answer_Id, scaleAttach.Attach_Id);
+                    AnswerInfluence answerInfluence = new AnswerInfluence(answer.Answer_Id, scaleAttach.Attach_Id, search_scale.Scale_Title);
                     all_influenceForAnswer.Add(answerInfluence);
                 }
                 else
@@ -299,6 +302,18 @@ namespace PsychoMetria.Materials.Models
                     var omitted_question = _all_QuestionsList.Where(x => x.Question_Id == question.Question_Id).FirstOrDefault();
                     omitted_question.Question_Id++;
                 }
+            }
+        }
+        public bool NameCheckoutQuestion(string name)
+        {
+            var searched_item = _all_QuestionsList.FirstOrDefault(x => x.Question_Title == name);
+            if (searched_item == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

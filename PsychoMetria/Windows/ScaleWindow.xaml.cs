@@ -101,7 +101,7 @@ namespace PsychoMetria.Windows
             }
             if (NameBox.Text.Contains('\\') || NameBox.Text.Contains('/'))
             {
-                MessageBox.Show("Заданное название теста содержит в себе недопустимые символы!", "Ошибка в имени",
+                MessageBox.Show("Заданное название шкалы содержит в себе недопустимые символы!", "Ошибка в имени",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 _isNameNormal = false;
                 NameBox.Text = "";
@@ -110,7 +110,7 @@ namespace PsychoMetria.Windows
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
             if (!take_page.OpenedQuestionnaire.NameCheckoutScale(NameBox.Text))
             {
-                MessageBox.Show("Указанное название теста повторяет название других шкал в тесте!", "Ошибка в имени",
+                MessageBox.Show("Указанное название шкалы повторяет название других шкал в тесте!", "Ошибка в имени",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 _isNameNormal = false;
                 NameBox.Text = "";

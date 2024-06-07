@@ -46,6 +46,7 @@
                             <TextBlock.ToolTip>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Само содержание ответа"/>
+                                    <TextBlock Text="Не должно превышать размер в 150 символов!"/>
                                     <TextBlock Text="Символы '/' или '\' в названии не приемлются"/>
                                 </StackPanel>
                             </TextBlock.ToolTip>

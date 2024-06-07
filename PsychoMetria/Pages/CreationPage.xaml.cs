@@ -122,7 +122,36 @@ namespace PsychoMetria.Pages
 
         private void CreateQuestionnaireBut_Click(object sender, RoutedEventArgs e)
         {
+            if (!MainInfoCheckout())
+            {
+                MessageBox.Show("Сохранение не произведено из-за отсутствия надлежащего заполнения полей", "Ошибка при попытке сохранении",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             //РАБОТА С ФАЙЛАМИ И ПАПКАМИ + ПРОВЕРКА НЕОБХОДИМЫХ ЗНАЧЕНИЙ
+        }
+
+        private bool MainInfoCheckout()
+        {
+            if (_isNameNormal)
+            {
+                nameBoxCheckout();
+            }
+            if (_isDescriptionNormal)
+            {
+                descriptionBoxCheckout();
+            }
+            if (_isEstimateNormal)
+            {
+                estimateBoxCheckout();
+            }
+
+            if (!_isNameNormal || !_isDescriptionNormal || !_isEstimateNormal)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -132,12 +161,17 @@ namespace PsychoMetria.Pages
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private bool _isNameNormal = false;
         private void NameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            nameBoxCheckout();
+        }
+
+        private bool _isNameNormal = false;
+        private void nameBoxCheckout()
         {
             if (NameBox.Text.Length > 100)
             {
-                MessageBox.Show("Заданное название теста превышает размер в 100 символов!", "Ошибка в имени", 
+                MessageBox.Show("Заданное название теста превышает размер в 100 символов!", "Ошибка в имени",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 _isNameNormal = false;
                 NameBox.Text = "";
@@ -155,16 +189,26 @@ namespace PsychoMetria.Pages
             _isNameNormal = true;
         }
 
-        private bool _isEstimateNormal = false;
         private void EstimateBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            estimateBoxCheckout();
+        }
+
+        private bool _isEstimateNormal = false;
+        private void estimateBoxCheckout()
         {
             var estimateType = EstimateBox.SelectedItem as EstimateType;
             OpenedQuestionnaire.ChooseEstimateType(estimateType);
             _isEstimateNormal = true;
         }
 
-        private bool _isDescriptionNormal = false;
         private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            descriptionBoxCheckout();
+        }
+
+        private bool _isDescriptionNormal = false;
+        private void descriptionBoxCheckout()
         {
             if (DescriptionBox.Text.Contains('\\') || DescriptionBox.Text.Contains('/'))
             {
