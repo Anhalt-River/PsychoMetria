@@ -17,7 +17,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="150"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
@@ -51,14 +51,22 @@
 
             <StackPanel Grid.Row="0" Grid.Column="2"
                         Orientation="Vertical"
+                        x:Name="QuestionProgressPanel"
                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                         Background="LightSkyBlue">
 
-                <TextBlock Text="-" FontSize="20" Margin="0"
+                <TextBlock Text="1" FontSize="20" Margin="0"
                                x:Name="QuestionnairePassed" 
                                HorizontalAlignment="Center"
                                Foreground="MidnightBlue"/>
+
+                <TextBlock Text="%" FontSize="20" Margin="2, 0, 0, 0"
+                               x:Name="QuestionnairePercent" 
+                               HorizontalAlignment="Center"
+                               Foreground="MidnightBlue"
+                           Visibility="Collapsed"/>
                 <TextBlock Text="/" FontSize="15" Margin="0"
+                           x:Name="AdjacentPlackBlock"
                                HorizontalAlignment="Center"
                                Foreground="MidnightBlue"/>
                 <TextBlock Text="-" FontSize="20" Margin="0"
@@ -87,7 +95,8 @@
             
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3" Margin="5"
                           HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                          Background="Transparent">
+                          Background="Transparent"
+                          VerticalScrollBarVisibility="Auto">
                 <TextBlock x:Name="QuestionBlock" 
                            TextWrapping="Wrap" 
                            Text="Неизвестное описание"
@@ -100,6 +109,7 @@
                   x:Name="AnswersList"
                   BorderBrush="MidnightBlue" BorderThickness="2" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                   d:ItemsSource="{d:SampleData ItemCount=50}">
 
                 <ListView.ItemContainerStyle>
@@ -145,7 +155,10 @@
                                 </Style>
                             </Button.Resources>
 
-                            <TextBlock Text="{Binding Answer_Text}" HorizontalAlignment="Stretch" Margin="10"/>
+                            <TextBlock Text="{Binding Answer_Text}"
+                                       HorizontalAlignment="Stretch" Margin="10"
+                                       MaxWidth="600"
+                                       TextWrapping="Wrap" MaxHeight="100"/>
                         </Button>
                     </DataTemplate>
                 </ListView.ItemTemplate>

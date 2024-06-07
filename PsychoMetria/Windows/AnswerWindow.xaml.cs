@@ -50,6 +50,10 @@ namespace PsychoMetria.Windows
 
                 _taked_answer = answer;
                 _taked_questionId = questionId;
+
+                AnswerTitleBox.Text = answer.Answer_Text;
+
+                RefreshScaleAttachList();
             }
             else
             {
@@ -59,14 +63,16 @@ namespace PsychoMetria.Windows
 
         private void EditLoader()
         {
-            RefreshScaleAttachList();
             _isTitleNormal = true;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             App.IsAnswerOpened = false;
-            this.Owner.Activate();
+            if (this.Owner != null)
+            {
+                this.Owner.Activate();
+            }
         }
 
         private void RefreshScaleAttachList()
@@ -133,7 +139,7 @@ namespace PsychoMetria.Windows
 
             try
             {
-                int value = Convert.ToInt32(item);
+                int value = Convert.ToInt32(item.Influence);
 
                 if (value == 0)
                 {

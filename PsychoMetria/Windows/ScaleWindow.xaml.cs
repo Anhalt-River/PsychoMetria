@@ -112,7 +112,7 @@ namespace PsychoMetria.Windows
                 return;
             }
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
-            if (!take_page.OpenedQuestionnaire.NameCheckoutScale(NameBox.Text))
+            if (!take_page.OpenedQuestionnaire.NameCheckoutScale(NameBox.Text, _taked_scale.Scale_Id))
             {
                 MessageBox.Show("Указанное название шкалы повторяет название других шкал в тесте!", "Ошибка в имени",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -167,7 +167,7 @@ namespace PsychoMetria.Windows
         private void EditEvaluationBut_Click(object sender, RoutedEventArgs e)
         {
             var selected_item = (sender as Button).DataContext as Evaluation;
-            EvaluationWindow evaluationWindow = new EvaluationWindow(selected_item, _taked_scale.Scale_Id);
+            EvaluationWindow evaluationWindow = new EvaluationWindow(selected_item, _taked_scale.Scale_Id, "");
             RefreshEvaluationList();
         }
         private void DeleteEvaluationBut_Click(object sender, RoutedEventArgs e)

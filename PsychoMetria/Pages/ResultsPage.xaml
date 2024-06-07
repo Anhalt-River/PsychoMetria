@@ -26,7 +26,7 @@
                 <StackPanel HorizontalAlignment="Stretch"
                             Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Вы успешно завершили тестирование " Margin="0, 5, 0, 5"/>
+                        <TextBlock Text="Вы успешно завершили тестирование: " Margin="0, 5, 0, 5"/>
                         <TextBlock Text="(Неизвестный тест)"
                                    TextWrapping="Wrap"
                                    x:Name="TestNameBlock" Margin="0, 5, 0, 5"/>
@@ -39,8 +39,11 @@
                                    TextWrapping="Wrap"
                                    x:Name="DescriptionBlock" Margin="0, 5, 0, 5"/>
                     </StackPanel>
+                    
+                    <Canvas Margin="0, 5, 0, 10" Height="1"
+                                Background="DimGray"/>
 
-                    <ListView x:Name="ResultsList" 
+                    <ListView x:Name="ScaleResultsList"
                               d:ItemsSource="{d:SampleData ItemCount=10}"
                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                               HorizontalContentAlignment="Stretch">
@@ -52,11 +55,10 @@
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderBrush="MidnightBlue" BorderThickness="2" Margin="0, 10, 0, 20">
+                                <Border BorderBrush="MidnightBlue" BorderThickness="4" Margin="0, 10, 0, 20">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="800"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
@@ -65,20 +67,25 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBlock Grid.Row="0" Grid.Column="0"
-                                                   Text="{Binding Scale_Title}" TextWrapping="Wrap"
+                                                   HorizontalAlignment="Left" 
+                                                   Text="{Binding Title}" TextWrapping="Wrap"
                                                    FontWeight="Bold"/>
-                                        
+
                                         <TextBlock Grid.Row="1" Grid.Column="0"
+                                                   HorizontalAlignment="Left" 
+                                                   MaxHeight="300"
                                                    Text="{Binding Scale_Description}" TextWrapping="Wrap"/>
 
                                         <StackPanel Grid.Row="2"
-                                                    HorizontalAlignment="Left" Orientation="Vertical"
-                                                    Margin="0, 20, 0, 0">
-                                            <StackPanel Orientation="Horizontal" Margin="0">
-                                                <TextBlock Text="Полученный результат:"/>
-                                                <TextBlock Text="Evaluation_Title"/>
+                                                    Orientation="Vertical"
+                                                    Margin="0, 20, 0, 0"
+                                                    HorizontalAlignment="Left" >
+                                            <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Left" >
+                                                <TextBlock Text="Полученный результат:" HorizontalAlignment="Left" />
+                                                <TextBlock Text="{Binding Evaluation_Title}" HorizontalAlignment="Left" />
                                             </StackPanel>
-                                            <TextBlock Text="{Binding Evaluation_Description}"/>
+                                            <TextBlock Text="{Binding Evaluation_Description}"
+                                                       TextWrapping="Wrap"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>

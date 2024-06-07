@@ -59,7 +59,8 @@ namespace PsychoMetria.Pages
 
         private void QuestionnaireStartBut_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new QuestionnairePage());
+            var selected_item = (sender as Button).DataContext as Questionnaire;
+            NavigationService.Navigate(new IntroductoryPage(selected_item));
         }
 
         
@@ -67,7 +68,7 @@ namespace PsychoMetria.Pages
         {
             List<Questionnaire> questionnaires = new List<Questionnaire>();
 
-            var all_files= Directory.GetFiles(App.AppDataPath, "*", SearchOption.AllDirectories).ToList();
+            var all_files = Directory.GetFiles(App.AppDataPath, "*", SearchOption.AllDirectories).ToList();
             foreach (var file in all_files)
             {
                 var row_parts = file.Split('\\');
@@ -151,14 +152,20 @@ namespace PsychoMetria.Pages
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog() 
             { Filter = "PTM Files (*.ptm)|*.ptm" }; ;
 
-            // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox 
+ 
+            FileInfo fileInfo = new FileInfo(dlg.FileName);
             if (result == true)
             {
-                // Open document 
-                MessageBox.Show($"Открыт файл {dlg.FileName}!!!");
+                var path = App.AppDataPath + '\\' + fileInfo.Name;
+                if (!File.Exists(path))
+                {
+                    File.Move(dlg.FileName, path);
+                }
+                else
+                {
+                    MessageBox.Show("Выбранный файл уже существует в памяти приложения!", "Ошибка при загрузке", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
 
             ListLoader();

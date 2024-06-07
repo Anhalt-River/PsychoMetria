@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PsychoMetria.Materials.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,24 @@ namespace PsychoMetria.Pages
     /// </summary>
     public partial class IntroductoryPage : Page
     {
-        public IntroductoryPage()
+        private Questionnaire _taked_questionnaire;
+        public IntroductoryPage(Questionnaire questionnaire)
         {
             InitializeComponent();
+            _taked_questionnaire = questionnaire;
+            BasicLoader();
+        }
+        
+        private void BasicLoader()
+        {
+            _taked_questionnaire.DecodeFile();
+
+            QuestionnaireBlock.Text = _taked_questionnaire.Name;
+            QuestionsCountBlock.Text = _taked_questionnaire.QuestionsCount();
+            if (_taked_questionnaire.Description.Length > 0)
+            {
+                DescriptionBlock.Text = _taked_questionnaire.Description;
+            }
         }
 
         private void BackToMainBut_Click(object sender, RoutedEventArgs e)
@@ -32,7 +48,7 @@ namespace PsychoMetria.Pages
 
         private void StartTestBut_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new QuestionnairePage(_taked_questionnaire));
         }
     }
 }

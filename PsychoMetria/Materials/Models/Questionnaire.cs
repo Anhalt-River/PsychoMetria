@@ -460,53 +460,76 @@ namespace PsychoMetria.Materials.Models
 
         public List<Question> TakeAllQuestions()
         {
-            return _all_QuestionsList;
+            List<Question> returned_questions = new List<Question>();
+            for (int i = 0; i < _all_QuestionsList.Count; i++)
+            {
+                var question = _all_QuestionsList.FirstOrDefault(x=> x.Question_Id == i);
+                returned_questions.Add(question);
+            }
+            return returned_questions;
         }
         public void MoveQuestion(Question question, string moveDirection)
         {
             int deleting_index = question.Question_Id;
             if (moveDirection == "Up")
             {
-                bool isWorked = false;
-                for (int i = deleting_index - 1; i > 0; i--)
+                for (int i = (deleting_index - 1); i >= 0; i--)
                 {
                     var changed = _all_QuestionsList.Where(x => x.Question_Id == i).FirstOrDefault();
-                    if (changed == null)
+                    if (changed != null)
                     {
-                        isWorked = true;
+                        castlingQuestions(changed.Question_Id, question.Question_Id);
                         break;
                     }
-                    changed.Question_Id--;
-                }
-                if (isWorked)
-                {
-                    var raised_question = _all_QuestionsList.Where(x => x.Question_Id == question.Question_Id).FirstOrDefault();
-                    raised_question.Question_Id--;
                 }
             }
             else if (moveDirection == "Down")
             {
-                bool isWorked = false;
-                for (int i = deleting_index + 1; i > _all_QuestionsList.Count; i--)
+                for (int i = (deleting_index + 1); i < _all_QuestionsList.Count; i--)
                 {
                     var changed = _all_QuestionsList.Where(x => x.Question_Id == i).FirstOrDefault();
-                    if (changed == null)
+                    if (changed != null)
                     {
-                        isWorked = true;
+                        castlingQuestions(changed.Question_Id, question.Question_Id);
                         break;
                     }
-                    changed.Question_Id++;
-                }
-                if (isWorked)
-                {
-                    var omitted_question = _all_QuestionsList.Where(x => x.Question_Id == question.Question_Id).FirstOrDefault();
-                    omitted_question.Question_Id++;
                 }
             }
         }
-        public bool NameCheckoutQuestion(string name)
+
+        private void castlingQuestions(int first_questionId, int second_questionId)
         {
-            var searched_item = _all_QuestionsList.FirstOrDefault(x => x.Question_Title == name);
+            var first_question = _all_QuestionsList.FirstOrDefault(x=> x.Question_Id == first_questionId);
+            var second_question = _all_QuestionsList.FirstOrDefault(x => x.Question_Id == second_questionId);
+
+            var all_first_scaleAttach = _all_ScaleAttachesList.Where(x=> x.Question_Id == first_questionId).ToList();
+            var all_second_scaleAttach = _all_ScaleAttachesList.Where(x => x.Question_Id == second_questionId).ToList();
+            foreach (var first_scaleAttach in all_first_scaleAttach)
+            {
+                first_scaleAttach.Question_Id = second_questionId;
+            }
+            foreach (var second_scaleAttach in all_second_scaleAttach)
+            {
+                second_scaleAttach.Question_Id = first_questionId;
+            }
+
+            var all_first_answers = _all_AnswersList.Where(x => x.Question_Id == first_questionId).ToList();
+            var all_second_answers = _all_AnswersList.Where(x => x.Question_Id == second_questionId).ToList();
+            foreach (var first_answer in all_first_answers)
+            {
+                first_answer.Question_Id = second_questionId;
+            }
+            foreach (var second_answer in all_second_answers)
+            {
+                second_answer.Question_Id = first_questionId;
+            }
+
+            first_question.Question_Id = second_questionId;
+            second_question.Question_Id = first_questionId;
+        }
+        public bool NameCheckoutQuestion(string name, int questionId)
+        {
+            var searched_item = _all_QuestionsList.FirstOrDefault(x => x.Question_Title == name && x.Question_Id != questionId);
             if (searched_item == null)
             {
                 return true;
@@ -515,6 +538,11 @@ namespace PsychoMetria.Materials.Models
             {
                 return false;
             }
+        }
+
+        public string QuestionsCount()
+        {
+            return _all_QuestionsList.Count.ToString();
         }
         private string encodeAllQuestions()
         {
@@ -545,6 +573,11 @@ namespace PsychoMetria.Materials.Models
                 question.Decode(row_question);
                 _all_QuestionsList.Add(question);
             }
+        }
+
+        public Question TakeQuestion(int questionId)
+        {
+            return _all_QuestionsList.FirstOrDefault(x=> x.Question_Id == questionId);
         }
 
 
@@ -597,9 +630,9 @@ namespace PsychoMetria.Materials.Models
             var all_evaluationForScale = _all_EvaluationsList.Where(x => x.Scale_Id == scaleId).ToList();
             return all_evaluationForScale;
         }
-        public bool NameCheckoutEvaluation(string name)
+        public bool NameCheckoutEvaluation(string name, int evaluationId)
         {
-            var searched_item = _all_EvaluationsList.FirstOrDefault(x => x.Evaluation_Title == name);
+            var searched_item = _all_EvaluationsList.FirstOrDefault(x => x.Evaluation_Title == name && x.Evaluation_Id != evaluationId);
             if (searched_item == null)
             {
                 return true;
@@ -625,6 +658,33 @@ namespace PsychoMetria.Materials.Models
                 }
             }
             return true;
+        }
+
+        public Evaluation SearchScaleEvaluation(ScaleInfluence scaleInfluence)
+        {
+            int taked_influence = scaleInfluence.Influence;
+            var search_evaluation = _all_EvaluationsList.FirstOrDefault(x=> x.Scale_Id == scaleInfluence.Scale.Scale_Id 
+                    && x.StartRange <= taked_influence && x.EndRange >= taked_influence);
+            if (search_evaluation != null)
+            {
+                return search_evaluation;
+            }
+            return null;
+        }
+
+        public int GetMaxEvaluationInfluence(ScaleInfluence scaleInfluence)
+        {
+            var search_all_evaluations = _all_EvaluationsList.Where(x=> x.Scale_Id == scaleInfluence.Scale.Scale_Id).ToList();
+            int max = 0;
+            foreach (var evaluation in search_all_evaluations)
+            {
+                if (evaluation.EndRange > max)
+                {
+                    max = evaluation.EndRange;
+                }
+            }
+
+            return max;
         }
         private string encodeAllEvaluations()
         {
@@ -735,6 +795,12 @@ namespace PsychoMetria.Materials.Models
             }
             return supNonAttachedScales;
         }
+
+        public ScaleAttach TakeScaleAttach(int scaleAttachId)
+        {
+            var scaleAttach = _all_ScaleAttachesList.FirstOrDefault(x=> x.Attach_Id == scaleAttachId);
+            return scaleAttach;
+        }
         private string encodeAllScaleAttaches()
         {
             string code = "";
@@ -817,9 +883,9 @@ namespace PsychoMetria.Materials.Models
         {
             return _all_ScalesList;
         }
-        public bool NameCheckoutScale(string name)
+        public bool NameCheckoutScale(string name, int scaleId)
         {
-            var searched_item = _all_ScalesList.FirstOrDefault(x=> x.Scale_Title == name);
+            var searched_item = _all_ScalesList.FirstOrDefault(x=> x.Scale_Title == name && x.Scale_Id != scaleId);
             if (searched_item == null)
             {
                 return true;
@@ -828,6 +894,11 @@ namespace PsychoMetria.Materials.Models
             {
                 return false;
             }
+        }
+        public Scale TakeScale(int scaleId)
+        {
+            var scale = _all_ScalesList.FirstOrDefault(x => x.Scale_Id == scaleId);
+            return scale;
         }
         private string encodeAllScales()
         {

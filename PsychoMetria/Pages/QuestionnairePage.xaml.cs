@@ -22,25 +22,42 @@ namespace PsychoMetria.Pages
     /// </summary>
     public partial class QuestionnairePage : Page
     {
-        public QuestionnairePage() //Передать идентификаторы теста
+        private Questionnaire _openedQuestionnaire;
+        private Testing _workingTest; 
+        public QuestionnairePage(Questionnaire questionnaire) //Передать идентификаторы теста
         {
             InitializeComponent();
+            _openedQuestionnaire = questionnaire;
             BasicLoader();
         }
 
         private void BasicLoader()
         {
-            Answer answer = new Answer();
-            List<Answer> answers = new List<Answer>();
-            answers.Add(answer);
-            answers.Add(answer);
-            answers.Add(answer);
-            answers.Add(answer);
-            answers.Add(answer);
-            answers.Add(answer);
-            answers.Add(answer);
+            _workingTest = new Testing(_openedQuestionnaire.QuestionsCount(), _openedQuestionnaire);
+            QuestionnaireBlock.Text = _openedQuestionnaire.Name;
+            QuestionnaireTotal.Text = _openedQuestionnaire.QuestionsCount();
+            /*if (_openedQuestionnaire.EstimateType.Estimate_Id == 1)
+            {
+                QuestionnaireBlock.Text = _openedQuestionnaire.Name;
+                QuestionnaireTotal.Text = _openedQuestionnaire.QuestionsCount();
+            }
+            else
+            {
+                QuestionProgressPanel.Orientation = Orientation.Horizontal;
+                QuestionProgressPanel.HorizontalAlignment = HorizontalAlignment.Center;
+                QuestionProgressPanel.VerticalAlignment = VerticalAlignment.Center;
+                QuestionnairePercent.Visibility = Visibility.Visible;
+                QuestionnaireTotal.Visibility = Visibility.Collapsed;
+                AdjacentPlackBlock.Visibility = Visibility.Collapsed;
+            }*/
 
-            AnswersList.ItemsSource = answers;
+            if (_workingTest.QuestionCount == 0)
+            {
+                MessageBox.Show("По всей видимости, вы открыли сломанный/неработающий тест!", "Ошибка при получении результатов теста", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            nextQuestion();
         }
 
         private void BackToMainBut_Click(object sender, RoutedEventArgs e)
@@ -48,9 +65,41 @@ namespace PsychoMetria.Pages
             NavigationService.Navigate(new MainPage());
         }
 
+
+        /// <summary>
+        /// Методы непосредственного тестирования
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AnswerBut_Click(object sender, RoutedEventArgs e)
         {
+            var selected_item = (sender as Button).DataContext as Answer;
+            _workingTest.TakeAnswer(selected_item);
+            nextQuestion();
+        }
 
+        private void nextQuestion()
+        {
+            var take_package = _workingTest.NextQuestion();
+
+            if (take_package == null) //Тесты кончились
+            {
+                NavigationService.Navigate(new ResultsPage(_workingTest));
+                return;
+            }
+
+            if (take_package.Item1.Question_Title != null)
+            {
+                QuestionBlock.Text = take_package.Item1.Question_Title + ".\n" + take_package.Item1.Question_Text;
+            }
+            else
+            {
+                QuestionBlock.Text = take_package.Item1.Question_Text;
+            }
+
+            AnswersList.ItemsSource = null;
+            AnswersList.ItemsSource = take_package.Item2;
+            QuestionnairePassed.Text = _workingTest.QuestionProgress.ToString();
         }
     }
 }

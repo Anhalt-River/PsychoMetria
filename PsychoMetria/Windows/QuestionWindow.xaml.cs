@@ -71,6 +71,19 @@ namespace PsychoMetria.Windows
             App.Current.MainWindow.Activate();
         }
 
+        private void searchAndCloseWindow()
+        {
+            var owned_windows = this.OwnedWindows;
+            foreach (var window in owned_windows)
+            {
+                var real_window = window as Window;
+                if (real_window.Name == "OpenedAnswerWindow")
+                {
+                    real_window.Close();
+                }
+            }
+        }
+
         private List<QuestionType> _all_questionTypes = new List<QuestionType>();
         private void ReloadQuestionType()
         {
@@ -131,7 +144,7 @@ namespace PsychoMetria.Windows
                 return;
             }
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
-            if (!take_page.OpenedQuestionnaire.NameCheckoutScale(TitleBox.Text))
+            if (!take_page.OpenedQuestionnaire.NameCheckoutScale(TitleBox.Text, _taked_question.Question_Id))
             {
                 MessageBox.Show("Указанное название вопроса повторяет название других вопросов в тесте!", "Ошибка в названии",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -182,9 +195,14 @@ namespace PsychoMetria.Windows
             AvailableScaleList.ItemsSource = null;
             AttachedScaleList.ItemsSource = null;
 
-            List<SupScaleAttach> nonAttachedList = take_page.OpenedQuestionnaire.TakeAllScaleAttach2_NonAttached(_taked_question.Question_Id);
+            List<SupScaleAttach> nonAttachedList = new List<SupScaleAttach>();
+            nonAttachedList = take_page.OpenedQuestionnaire.TakeAllScaleAttach2_NonAttached(_taked_question.Question_Id);
             AvailableScaleList.ItemsSource = nonAttachedList;
-            AttachedScaleList.ItemsSource = take_page.OpenedQuestionnaire.TakeAllScaleAttach(_taked_question.Question_Id);
+
+
+            List<SupScaleAttach> attachedList = new List<SupScaleAttach>();
+            attachedList = take_page.OpenedQuestionnaire.TakeAllScaleAttach(_taked_question.Question_Id);
+            AttachedScaleList.ItemsSource = attachedList;
         }
         private void ScaleBut_Click(object sender, RoutedEventArgs e)
         {
@@ -246,9 +264,9 @@ namespace PsychoMetria.Windows
             ScaleUnderline.Visibility = Visibility.Collapsed;
             AnswerUnderline.Visibility = Visibility.Visible;
 
-            MainInfoPanel.Visibility = Visibility.Visible;
+            MainInfoPanel.Visibility = Visibility.Collapsed;
             ScalePanel.Visibility = Visibility.Collapsed;
-            AnswerPanel.Visibility = Visibility.Collapsed;
+            AnswerPanel.Visibility = Visibility.Visible;
         }
         private void AddNewAnswerBut_Click(object sender, RoutedEventArgs e)
         {
@@ -261,6 +279,7 @@ namespace PsychoMetria.Windows
         private void EditAnswerBut_Click(object sender, RoutedEventArgs e)
         {
             var selected_item = (sender as Button).DataContext as Answer;
+            searchAndCloseWindow();
             AnswerWindow answerWindow = new AnswerWindow(selected_item, _taked_question.Question_Id, "");
             RefreshAnswerList();
         }

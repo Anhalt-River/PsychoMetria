@@ -57,6 +57,8 @@ namespace PsychoMetria.Pages
             CreateQuestionnaireBlock.Text = "Сохранить изменения";
             DeleteQuestionnaireBut.Visibility = Visibility.Visible;
 
+            OpenedQuestionnaire.DecodeFile();
+
             NameBox.Text = OpenedQuestionnaire.Name;
             _isNameNormal = true;
 
@@ -80,8 +82,6 @@ namespace PsychoMetria.Pages
             }
 
             _isCreatingPage = false;
-
-            OpenedQuestionnaire.DecodeFile();
         }
 
         private void BackToMainBut_Click(object sender, RoutedEventArgs e)

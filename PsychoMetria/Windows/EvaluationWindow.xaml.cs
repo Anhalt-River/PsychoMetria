@@ -32,6 +32,16 @@ namespace PsychoMetria.Windows
             BasicLoader();
         }
 
+        public EvaluationWindow(Evaluation evaluation, int scaleId, string empty)
+        {
+            InitializeComponent();
+
+            _taked_evaluation = evaluation;
+            _taked_scaleId = scaleId;
+            BasicLoader();
+            EditLoader();
+        }
+
         private void BasicLoader()
         {
             if (!App.IsEvaluationOpened)
@@ -49,6 +59,11 @@ namespace PsychoMetria.Windows
             {
                 this.Close();
             }
+        }
+        private void EditLoader()
+        {
+            _isNameNormal = true;
+            _isDescriptionNormal = true;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -82,7 +97,7 @@ namespace PsychoMetria.Windows
                 return;
             }
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
-            if (!take_page.OpenedQuestionnaire.NameCheckoutEvaluation(NameBox.Text))
+            if (!take_page.OpenedQuestionnaire.NameCheckoutEvaluation(NameBox.Text, _taked_evaluation.Evaluation_Id))
             {
                 MessageBox.Show("Указанное название оценки повторяет название других оценок в тесте!", "Ошибка в названии",
                     MessageBoxButton.OK, MessageBoxImage.Error);

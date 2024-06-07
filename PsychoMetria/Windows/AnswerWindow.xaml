@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PsychoMetria.Windows"
         mc:Ignorable="d"
         Title="Окно ответа" Height="450" Width="800"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        x:Name="OpenedAnswerWindow">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -100,7 +101,7 @@
 
                                     <TextBox Grid.Row="1" Grid.Column="1"
                                              x:Name="AnswerProgressBox" LostFocus="AnswerProgressBox_LostFocus"
-                                             Text="0" TextAlignment="Center"/>
+                                             Text="{Binding Influence}" TextAlignment="Center"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

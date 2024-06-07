@@ -63,7 +63,10 @@
     <Compile Include="Materials\Models\Scale.cs" />
     <Compile Include="Materials\Models\ScaleAttach.cs" />
     <Compile Include="Materials\Models\SupportModels\EstimateType.cs" />
+    <Compile Include="Materials\Models\SupportModels\ScaleInfluence.cs" />
+    <Compile Include="Materials\Models\SupportModels\ScaleResult.cs" />
     <Compile Include="Materials\Models\SupportModels\SupScaleAttach.cs" />
+    <Compile Include="Materials\Models\Testing.cs" />
     <Compile Include="Pages\CreationPage.xaml.cs">
       <DependentUpon>CreationPage.xaml</DependentUpon>
     </Compile>
