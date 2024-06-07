@@ -28,6 +28,13 @@ namespace PsychoMetria
 
         private void BasicLoader()
         {
+            if (PsychoMetria.Properties.Settings.Default.IsFirstStart)
+            {
+                App.CreateAppDataFolder();
+                PsychoMetria.Properties.Settings.Default.IsFirstStart = false;
+                PsychoMetria.Properties.Settings.Default.Save();
+            }
+
             if (!PsychoMetria.Properties.Settings.Default.IsLoadCanceled)
             {
                 MainFrame.Content = new Pages.StartPage(true);
