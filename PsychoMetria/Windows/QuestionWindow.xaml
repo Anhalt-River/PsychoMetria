@@ -197,8 +197,6 @@
                                         HorizontalAlignment="Left">
                     <TextBlock Text="Тип вопроса" 
                                            Margin="5, 0, 0, 0"/>
-                    <TextBlock Text="*" Foreground="OrangeRed" 
-                                           Margin="5, 0, 0, 0"/>
                     <TextBlock Text="(?)" Foreground="MidnightBlue" 
                                            Margin="5, 0, 0, 0" FontSize="20"
                                            FontFamily="Vernada"
@@ -232,7 +230,7 @@
                                       SelectedIndex="0">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding QuestionType}"/>
+                            <TextBlock Text="{Binding QuestionType_Title}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -281,7 +279,7 @@
             </StackPanel>
         </StackPanel>
 
-        <ScrollViewer Visibility="Collapsed"
+        <ScrollViewer Visibility="Visible"
                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                       x:Name="ScalePanel"
                       VerticalScrollBarVisibility="Auto">
@@ -335,7 +333,7 @@
 
                                         <ScrollViewer Grid.Row="1" Grid.Column="0"
                                                           VerticalScrollBarVisibility="Auto">
-                                            <TextBlock Text="{Binding Scale_Title}"
+                                            <TextBlock Text="{Binding Path=Scale.Scale_Title}"
                                                    TextWrapping="Wrap"/>
                                         </ScrollViewer>
 
@@ -373,7 +371,7 @@
 
                                         <TextBlock Grid.Row="1" Grid.Column="1"
                                                        Text="{Binding MaxRange}"
-                                                   TextAlignment="Left"/>
+                                                   TextAlignment="Center"/>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -488,7 +486,7 @@
 
                                         <ScrollViewer Grid.Row="1" Grid.Column="0"
                                                           VerticalScrollBarVisibility="Auto">
-                                            <TextBlock Text="{Binding Scale_Title}"
+                                            <TextBlock Text="{Binding Path=Scale.Scale_Title}"
                                                    TextWrapping="Wrap"/>
                                         </ScrollViewer>
 
@@ -525,8 +523,8 @@
                                         </StackPanel>
 
                                         <TextBlock Grid.Row="1" Grid.Column="1"
-                                                       Text="{Binding MaxRange}"
-                                                   TextAlignment="Left"/>
+                                                   Text="{Binding MaxRange}"
+                                                   TextAlignment="Center"/>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -536,7 +534,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <ScrollViewer Visibility="Visible"
+        <ScrollViewer Visibility="Collapsed"
                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                       x:Name="AnswerPanel"
                       VerticalScrollBarVisibility="Auto">

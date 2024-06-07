@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Markup;
 
 namespace PsychoMetria.Materials.Models
@@ -53,6 +54,28 @@ namespace PsychoMetria.Materials.Models
             EndRange = end_range;
 
             RangeOfValuesString = ($"От {StartRange} и До {EndRange}");
+        }
+
+        public string Encode()
+        {
+            string code = ($"{Evaluation_Id}\\{Evaluation_Title}\\{Evaluation_Description}\\{Scale_Id}\\{StartRange}\\{EndRange}\\{RangeOfValuesString}");
+            return code;
+        }
+
+        public void Decode(string code)
+        {
+            try
+            {
+                string[] array = code.Split('\\');
+                Evaluation_Id = Convert.ToInt32(array[0]);
+                Evaluation_Title = array[1];
+                Evaluation_Description = array[2];
+                Scale_Id = Convert.ToInt32(array[3]);
+                StartRange = Convert.ToInt32(array[4]);
+                EndRange = Convert.ToInt32(array[5]);
+                RangeOfValuesString = array[6];
+            }
+            catch (Exception) { MessageBox.Show("Загружаемый файл теста поврежден!", "Ошибка при загрузке!", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
     }
 }

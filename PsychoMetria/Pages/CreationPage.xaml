@@ -100,7 +100,7 @@
                         <Canvas Margin="0, 5, 0, 10" Height="1"
                                 Background="DimGray"/>
                         <StackPanel Margin="5, 0, 5, 0" HorizontalAlignment="Left"
-                                    x:Name="MainInfoPanel" Visibility="Collapsed">
+                                    x:Name="MainInfoPanel" Visibility="Visible">
                             <StackPanel Margin="0"
                                         HorizontalAlignment="Left">
                                 <StackPanel Margin="0" Orientation="Horizontal"
@@ -673,9 +673,48 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StackPanel Grid.Row="2" Grid.Column="1">
+        <StackPanel Grid.Row="2" Grid.Column="1"
+                    Orientation="Horizontal">
+            <Button x:Name="DeleteQuestionnaireBut" Click="DeleteQuestionnaireBut_Click"
+                    Background="LightSalmon"
+                    Margin="0, 0, 10 ,0"
+                    ToolTipService.InitialShowDelay="100"
+                    Visibility="Collapsed">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="MidnightBlue"/>
+                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock Text="Удалить тест"/>
+
+                <Button.ToolTip>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Удалить тест, вернувшись на основную страницу"/>
+                    </StackPanel>
+                </Button.ToolTip>
+            </Button>
+            
             <Button x:Name="CreateQuestionnaireBut" Click="CreateQuestionnaireBut_Click"
                     Background="LightBlue"
+                    Margin="10, 0, 0 ,0"
                     ToolTipService.InitialShowDelay="100">
                 <Button.Resources>
                     <Style TargetType="Border">
@@ -700,7 +739,7 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
-                <TextBlock Text="Создать новый тест"/>
+                <TextBlock x:Name="CreateQuestionnaireBlock" Text="Создать новый тест"/>
 
                 <Button.ToolTip>
                     <StackPanel Orientation="Vertical">

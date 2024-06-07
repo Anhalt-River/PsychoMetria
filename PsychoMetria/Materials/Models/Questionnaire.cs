@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace PsychoMetria.Materials.Models
 {
@@ -13,30 +15,138 @@ namespace PsychoMetria.Materials.Models
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Row_Code { get; set; }
+        private string _rowCode { get; set; }
 
         private List<Answer> _all_AnswersList = new List<Answer>();
         private List<AnswerInfluence> _all_AnswerInfluencesList = new List<AnswerInfluence>();
         private List<Question> _all_QuestionsList = new List<Question>();
         private List<Evaluation> _all_EvaluationsList = new List<Evaluation>();
-        private List<Scale> _all_ScalesList = new List<Scale>();
         private List<ScaleAttach> _all_ScaleAttachesList = new List<ScaleAttach>();
+        private List<Scale> _all_ScalesList = new List<Scale>();
 
         public EstimateType EstimateType;
         public bool IsMixedQuestions = false;
 
-        public Questionnaire()
+        public Questionnaire() //Создать новый тест, пока что без данных в папке Data
         {
         }
 
-        public Questionnaire(string file_path)
+        public Questionnaire(string name) //Загрузить базовую информацию опроса
         {
-            StreamReader file = new StreamReader(file_path);
-            string all_text = file.ReadToEnd();
-            char c = '/';
-            string[] row_text = all_text.Split(c);
-            Name = row_text[0];
-            Description = row_text[1];
+            Name = name;
+            SearchFile();
+
+            string separator = ($"{'/'}{'\\'}");
+            string[] row_parts = _rowCode.Split(new string[] { separator }, StringSplitOptions.None);
+
+            //ОБЩАЯ ИНФОРМАЦИЯ                                                        
+            string mainInfo = row_parts[0];
+            decodeMainInfo(mainInfo);
+        }
+
+        public void DecodeFile()
+        {
+            decoder();
+        }
+
+        private void SearchFile()
+        {
+            string path = App.AppDataPath + $"\\{Name}";
+
+            try
+            {
+                using (StreamReader sr = File.OpenText(path))
+                {
+                    _rowCode = sr.ReadToEnd();
+                }
+            }
+
+            catch (Exception) { }
+        }
+
+        private void decoder()
+        {
+            string separator = ($"{'/'}{'\\'}");
+            string[] row_parts = _rowCode.Split(new string[] { separator }, StringSplitOptions.None);
+
+            //ОБЩАЯ ИНФОРМАЦИЯ                                                        
+            string mainInfo = row_parts[0];
+            decodeMainInfo(mainInfo);
+
+            //ОТВЕТЫ                                                              
+            string answers = row_parts[1];
+            decodeAllAnswers(answers);
+
+            //ВЛИЯНИЯ ОТВЕТОВ                                                      
+            string influences = row_parts[2];
+            decodeAllInfluences(influences);
+
+            //ВОПРОСЫ                                                   
+            string questions = row_parts[3];
+            decodeAllQuestions(questions);
+
+            //ОЦЕНКИ                                                   
+            string evaluations = row_parts[4];
+            decodeAllEvaluations(evaluations);
+
+            //ПРИКРЕПЛЕННЫЕ ШКАЛЫ                                               
+            string scaleAttaches = row_parts[5];
+            decodeAllScaleAttaches(scaleAttaches);
+
+            //ШКАЛЫ                                                                
+            string scales = row_parts[6];
+            decodeAllScales(scales);
+        }
+
+
+        public void EncodeToData()
+        {
+            App.CreateAppDataFolder();
+            encoder();
+        }
+
+        private void encoder() //Закодировать все данные
+        {
+            string code = "";
+            //ОБЩАЯ ИНФОРМАЦИЯ
+            code += $"{Name}\\{Description}\\{IsMixedQuestions}\\{EstimateType.Estimate_Title}";
+            code += "/\\";
+
+            //ОТВЕТЫ
+            code += encodeAllAnswers();
+            code += "/\\";
+
+            //ВЛИЯНИЯ ОТВЕТОВ
+            code += encodeAllInfluences();
+            code += "/\\";
+
+            //ВОПРОСЫ
+            code += encodeAllQuestions();
+            code += "/\\";
+
+            //ОЦЕНКИ
+            code += encodeAllEvaluations();
+            code += "/\\";
+
+            //ПРИКРЕПЛЕННЫЕ ШКАЛЫ
+            code += encodeAllScaleAttaches();
+            code += "/\\";
+
+            //ШКАЛЫ
+            code += encodeAllScales();
+
+            try
+            {
+                string path = App.AppDataPath + $"\\{Name}.ptm";
+
+                using (FileStream fs = File.Create(path))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(code);
+                    // Add some information to the file.
+                    fs.Write(info, 0, info.Length);
+                }
+            }
+            catch (Exception) { MessageBox.Show("Произошел сбой при попытке сохранить код!", "Ошибка сохранения кода", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         /// <summary>
@@ -49,7 +159,6 @@ namespace PsychoMetria.Materials.Models
         public void ChooseEstimateType(EstimateType estimateType)
         {
             EstimateType = estimateType;
-            MessageBox.Show($"{EstimateType.Estimate_Title}!");
         }
 
         public List<EstimateType> TakeAllEstimateTypes()
@@ -59,6 +168,14 @@ namespace PsychoMetria.Materials.Models
             estimateTypes.Add(new EstimateType("Процентная"));
 
             return estimateTypes;
+        }
+
+        public void EditQuestionnaire(string name, string description, string estimateType, bool isMixUpQuestions)
+        {
+            Name = name;
+            Description = description;
+            EstimateType.EstimateChange(estimateType);
+            IsMixedQuestions = isMixUpQuestions;
         }
 
         public void ClearAll()
@@ -74,6 +191,30 @@ namespace PsychoMetria.Materials.Models
 
             EstimateType = null;
             IsMixedQuestions = false;
+        }
+
+        public void Delete()
+        {
+            try
+            {
+                string path = App.AppDataPath + $"\\{Name}.ptm";
+
+                File.Delete(path);
+            }
+            catch (Exception) { MessageBox.Show("Произошел сбой при попытке удалить тест!", "Ошибка удаления теста", MessageBoxButton.OK, MessageBoxImage.Error); }
+        }
+
+        private void decodeMainInfo(string code)
+        {
+            try
+            {
+                string[] array = code.Split('\\');
+                Name = array[0];
+                Description = array[1];
+                IsMixedQuestions = Convert.ToBoolean(array[2]);
+                EstimateType = new EstimateType(array[3]);
+            }
+            catch (Exception) { MessageBox.Show("Загружаемый файл теста поврежден!", "Ошибка при загрузке!", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
 
@@ -124,6 +265,35 @@ namespace PsychoMetria.Materials.Models
         {
             var all_answers = _all_AnswersList.Where(x => x.Question_Id == questionId).ToList();
             return all_answers;
+        }
+        private string encodeAllAnswers()
+        {
+            string code = "";
+            int i = _all_AnswersList.Count();
+            foreach (var answer in _all_AnswersList)
+            {
+                code += answer.Encode();
+                if (i != 1)
+                {
+                    code += "/";
+                }
+                i--;
+            }
+            return code;
+        }
+        private void decodeAllAnswers(string code)
+        {
+            if (code == "")
+            {
+                return;
+            }
+            string[] row_answers = code.Split('/');
+            foreach (var row_answer in row_answers)
+            {
+                Answer answer = new Answer();
+                answer.Decode(row_answer);
+                _all_AnswersList.Add(answer);
+            }
         }
 
 
@@ -211,6 +381,36 @@ namespace PsychoMetria.Materials.Models
             }
 
             return all_influenceForAnswer;
+        }
+        private string encodeAllInfluences()
+        {
+            string code = "";
+            int i = _all_AnswerInfluencesList.Count();
+            foreach (var influence in _all_AnswerInfluencesList)
+            {
+                code += influence.Encode();
+                if (i != 1)
+                {
+                    code += "/";
+                }
+                i--;
+            }
+            return code;
+        }
+        private void decodeAllInfluences(string code)
+        {
+            if (code == "")
+            {
+                return;
+            }
+
+            string[] row_influences = code.Split('/');
+            foreach (var row_influence in row_influences)
+            {
+                AnswerInfluence answerInfluence = new AnswerInfluence();
+                answerInfluence.Decode(row_influence);
+                _all_AnswerInfluencesList.Add(answerInfluence);
+            }
         }
 
 
@@ -316,6 +516,36 @@ namespace PsychoMetria.Materials.Models
                 return false;
             }
         }
+        private string encodeAllQuestions()
+        {
+            string code = "";
+            int i = _all_QuestionsList.Count();
+            foreach (var question in _all_QuestionsList)
+            {
+                code += question.Encode();
+                if (i != 1)
+                {
+                    code += "/";
+                }
+                i--;
+            }
+            return code;
+        }
+        private void decodeAllQuestions(string code)
+        {
+            if (code == "")
+            {
+                return;
+            }
+
+            string[] row_questions = code.Split('/');
+            foreach (var row_question in row_questions)
+            {
+                Question question = new Question();
+                question.Decode(row_question);
+                _all_QuestionsList.Add(question);
+            }
+        }
 
 
 
@@ -396,6 +626,36 @@ namespace PsychoMetria.Materials.Models
             }
             return true;
         }
+        private string encodeAllEvaluations()
+        {
+            string code = "";
+            int i = _all_EvaluationsList.Count();
+            foreach (var evaluation in _all_EvaluationsList)
+            {
+                code += evaluation.Encode();
+                if (i != 1)
+                {
+                    code += "/";
+                }
+                i--;
+            }
+            return code;
+        }
+        private void decodeAllEvaluations(string code)
+        {
+            if (code == "")
+            {
+                return;
+            }
+
+            string[] row_evaluations = code.Split('/');
+            foreach (var row_evaluation in row_evaluations)
+            {
+                Evaluation evaluation = new Evaluation();
+                evaluation.Decode(row_evaluation);
+                _all_EvaluationsList.Add(evaluation);
+            }
+        }
 
 
 
@@ -465,7 +725,7 @@ namespace PsychoMetria.Materials.Models
             var all_scales = _all_ScalesList.ToList();
             foreach (var scale in all_scales)
             {
-                var search_attach = _all_ScaleAttachesList.Where(x => x.Scale_Id == scale.Scale_Id && x.Question_Id == questionId).ToList();
+                var search_attach = _all_ScaleAttachesList.Where(x => x.Scale_Id == scale.Scale_Id && x.Question_Id == questionId).FirstOrDefault();
                 if (search_attach == null)
                 {
                     SupScaleAttach supScaleAttach = new SupScaleAttach(scale,
@@ -474,6 +734,36 @@ namespace PsychoMetria.Materials.Models
                 }
             }
             return supNonAttachedScales;
+        }
+        private string encodeAllScaleAttaches()
+        {
+            string code = "";
+            int i = _all_ScaleAttachesList.Count();
+            foreach (var scaleAttach in _all_ScaleAttachesList)
+            {
+                code += scaleAttach.Encode();
+                if (i != 1)
+                {
+                    code += "/";
+                }
+                i--;
+            }
+            return code;
+        }
+        private void decodeAllScaleAttaches(string code)
+        {
+            if (code == "")
+            {
+                return;
+            }
+
+            string[] row_scaleAttaches = code.Split('/');
+            foreach (var row_scaleAttach in row_scaleAttaches)
+            {
+                ScaleAttach scaleAttach = new ScaleAttach();
+                scaleAttach.Decode(row_scaleAttach);
+                _all_ScaleAttachesList.Add(scaleAttach);
+            }
         }
 
 
@@ -537,6 +827,36 @@ namespace PsychoMetria.Materials.Models
             else
             {
                 return false;
+            }
+        }
+        private string encodeAllScales()
+        {
+            string code = "";
+            int i = _all_ScalesList.Count();
+            foreach (var scale in _all_ScalesList)
+            {
+                code += scale.Encode();
+                if (i != 1)
+                {
+                    code += "/";
+                }
+                i--;
+            }
+            return code;
+        }
+        private void decodeAllScales(string code)
+        {
+            if (code == "")
+            {
+                return;
+            }
+
+            string[] row_scales = code.Split('/');
+            foreach (var row_scale in row_scales)
+            {
+                Scale scale = new Scale();
+                scale.Decode(row_scale);
+                _all_ScalesList.Add(scale);
             }
         }
     }

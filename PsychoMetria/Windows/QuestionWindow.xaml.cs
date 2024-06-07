@@ -66,8 +66,8 @@ namespace PsychoMetria.Windows
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            App.IsScalesOpened = false;
-            App.IsEvaluationOpened = false;
+            App.IsQuestionOpened = false;
+            App.IsAnswerOpened = false;
             App.Current.MainWindow.Activate();
         }
 
@@ -111,7 +111,7 @@ namespace PsychoMetria.Windows
             titleCheckout();
         }
 
-        private bool _isTitleNormal = false;
+        private bool _isTitleNormal = true;
         private void titleCheckout()
         {
             if (TitleBox.Text.Length > 150)
@@ -182,7 +182,8 @@ namespace PsychoMetria.Windows
             AvailableScaleList.ItemsSource = null;
             AttachedScaleList.ItemsSource = null;
 
-            AvailableScaleList.ItemsSource = take_page.OpenedQuestionnaire.TakeAllScaleAttach2_NonAttached(_taked_question.Question_Id);
+            List<SupScaleAttach> nonAttachedList = take_page.OpenedQuestionnaire.TakeAllScaleAttach2_NonAttached(_taked_question.Question_Id);
+            AvailableScaleList.ItemsSource = nonAttachedList;
             AttachedScaleList.ItemsSource = take_page.OpenedQuestionnaire.TakeAllScaleAttach(_taked_question.Question_Id);
         }
         private void ScaleBut_Click(object sender, RoutedEventArgs e)

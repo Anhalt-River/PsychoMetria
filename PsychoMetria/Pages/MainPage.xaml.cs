@@ -15,7 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Microsoft.Win32;
 using PsychoMetria.Materials.Models;
 using PsychoMetria.Windows;
 
@@ -36,6 +36,7 @@ namespace PsychoMetria.Pages
         {
             InitializeComponent();
             BasicLoader();
+            ListLoader();
         }
 
         public void BasicLoader()
@@ -61,18 +62,26 @@ namespace PsychoMetria.Pages
             NavigationService.Navigate(new QuestionnairePage());
         }
 
-        private void ListLoader()
-        {/*
-            string path = $"{AppDomain.CurrentDomain.BaseDirectory}Data" + "\\Test.txt";
-            //MessageBox.Show($"{path}");
-
-            Questionnaire questionnaire = new Questionnaire(path);
+        
+        public void ListLoader()
+        {
             List<Questionnaire> questionnaires = new List<Questionnaire>();
-            questionnaires.Add(questionnaire);
+
+            var all_files= Directory.GetFiles(App.AppDataPath, "*", SearchOption.AllDirectories).ToList();
+            foreach (var file in all_files)
+            {
+                var row_parts = file.Split('\\');
+                string file_name = row_parts.LastOrDefault();
+                var file_extension = file_name.Split('.');
+                if (file_extension[1] == "ptm")
+                {
+                    Questionnaire questionnaire = new Questionnaire(file_name);
+                    questionnaires.Add(questionnaire);
+                }
+            }
 
             QuestionnaireList.ItemsSource = null;
-            QuestionnaireList.ItemsSource = questionnaires;*/
-
+            QuestionnaireList.ItemsSource = questionnaires;
         }
 
         private void UserToolKitBut_Click(object sender, RoutedEventArgs e)
@@ -135,9 +144,23 @@ namespace PsychoMetria.Pages
             }
         }
 
-        private void AddNewQuestionnaireBut_Click(object sender, RoutedEventArgs e)
+        private void addNewQuestionnaireBut_Click(object sender, RoutedEventArgs e)
         {
             //Найти новый файл, скопировать его в папку установленных тестов
+
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog() 
+            { Filter = "PTM Files (*.ptm)|*.ptm" }; ;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                MessageBox.Show($"Открыт файл {dlg.FileName}!!!");
+            }
+
             ListLoader();
         }
 
@@ -208,12 +231,21 @@ namespace PsychoMetria.Pages
 
         private void DeleteQuestionnaireBut_Click(object sender, RoutedEventArgs e)
         {
+            var selected_item = (sender as Button).DataContext as Questionnaire;
+            var result = MessageBox.Show($"Вы уверены, что хотите удалить файл {selected_item.Name}?", "Удаление опроса", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
 
+            selected_item.Delete();
+            ListLoader();
         }
 
         private void QuestionnaireEditBut_Click(object sender, RoutedEventArgs e)
         {
-
+            var selected_item = (sender as Button).DataContext as Questionnaire;
+            NavigationService.Navigate(new CreationPage(selected_item));
         }
 
         private void CreateNewQuestionnaireBut_Click(object sender, RoutedEventArgs e)

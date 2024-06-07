@@ -339,7 +339,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0"
-                x:Name="AddNewQuestionnaireBut" Click="AddNewQuestionnaireBut_Click"
+                x:Name="AddNewQuestionnaireBut" Click="addNewQuestionnaireBut_Click"
                 Width="70" Height="70"
                 Background="LightBlue" BorderThickness="2"
                 ToolTipService.InitialShowDelay="100"
@@ -372,9 +372,8 @@
 
                 <Button.ToolTip>
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Добавить" Margin="0"/>
-                        <TextBlock Text="новый" Margin="0"/>
-                        <TextBlock Text="тест" Margin="0"/>
+                        <TextBlock Text="Добавить новый тест" Margin="0"/>
+                        <TextBlock Text="Приложение будет искать только тесты с подходящим расширением .ptm" Margin="0"/>
                     </StackPanel>
                 </Button.ToolTip>
             </Button>

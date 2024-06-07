@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PsychoMetria.Materials.Models
 {
@@ -61,6 +62,25 @@ namespace PsychoMetria.Materials.Models
             Question_Title = question_title;
             Question_Text = question_text;
             QuestionType = new QuestionType(questionType);
+        }
+
+        public string Encode()
+        {
+            string code = ($"{Question_Id}\\{Question_Title}\\{Question_Text}\\{QuestionType.QuestionType_Id}");
+            return code;
+        }
+
+        public void Decode(string code)
+        {
+            try
+            {
+                string[] array = code.Split('\\');
+                Question_Id = Convert.ToInt32(array[0]);
+                Question_Title = array[1];
+                Question_Text = array[2];
+                QuestionType = new QuestionType(Convert.ToInt32(array[3]));
+            }
+            catch (Exception) { MessageBox.Show("Загружаемый файл теста поврежден!", "Ошибка при загрузке!", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
     }
 }

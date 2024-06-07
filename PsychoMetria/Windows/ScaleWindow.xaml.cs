@@ -88,8 +88,12 @@ namespace PsychoMetria.Windows
             App.Current.MainWindow.Activate();
         }
 
-        private bool _isNameNormal = false;
         private void NameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            nameCheckout();
+        }
+        private bool _isNameNormal = false;
+        private void nameCheckout()
         {
             if (NameBox.Text.Length > 100)
             {
@@ -120,8 +124,12 @@ namespace PsychoMetria.Windows
             _isNameNormal = true;
         }
 
-        private bool _isDescriptionNormal = true;
         private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            descriptionCheckout();
+        }
+        private bool _isDescriptionNormal = true;
+        private void descriptionCheckout()
         {
             if (DescriptionBox.Text.Contains('\\') || DescriptionBox.Text.Contains('/'))
             {
@@ -188,6 +196,15 @@ namespace PsychoMetria.Windows
 
         private void SaveScaleBut_Click(object sender, RoutedEventArgs e)
         {
+            if (_isNameNormal)
+            {
+                nameCheckout();
+            }
+            if (_isDescriptionNormal)
+            {
+                descriptionCheckout();
+            }
+
             if (!_isNameNormal || !_isDescriptionNormal)
             {
                 MessageBox.Show("Сохранение не произведено из-за отсутствия надлежащего заполнения полей", "Ошибка при попытке сохранении",

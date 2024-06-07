@@ -57,8 +57,13 @@ namespace PsychoMetria.Windows
             this.Owner.Activate();
         }
 
-        private bool _isNameNormal = false;
         private void NameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            nameCheckout();
+        }
+
+        private bool _isNameNormal = false;
+        private void nameCheckout()
         {
             if (NameBox.Text.Length > 100)
             {
@@ -88,9 +93,13 @@ namespace PsychoMetria.Windows
 
             _isNameNormal = true;
         }
+        private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            descriptionCheckout();
+        }
 
         private bool _isDescriptionNormal = true;
-        private void DescriptionBox_LostFocus(object sender, RoutedEventArgs e)
+        private void descriptionCheckout()
         {
             if (DescriptionBox.Text.Contains('\\') || DescriptionBox.Text.Contains('/'))
             {
@@ -116,8 +125,12 @@ namespace PsychoMetria.Windows
             _isRangesNormal = take_page.OpenedQuestionnaire.RangesCheckoutEvaluation(_taked_evaluation, _taked_scaleId, startRange, endRange);
         }
 
-        private bool _isStartRangeNormal = true;
         private void StartRangeBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            startRangeCheckout();
+        }
+        private bool _isStartRangeNormal = true;
+        private void startRangeCheckout()
         {
             try
             {
@@ -151,12 +164,16 @@ namespace PsychoMetria.Windows
             _isStartRangeNormal = true;
         }
 
-        private bool _isEndRangeNormal = true;
         private void EndRangeBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            endRangeCheckout();
+        }
+        private bool _isEndRangeNormal = true;
+        private void endRangeCheckout()
         {
             try
             {
-                int end_range = Convert.ToInt32(StartRangeBox.Text);
+                int end_range = Convert.ToInt32(EndRangeBox.Text);
 
                 if (end_range < 0)
                 {
@@ -168,7 +185,7 @@ namespace PsychoMetria.Windows
 
                 if (end_range <= Convert.ToInt32(StartRangeBox.Text))
                 {
-                    MessageBox.Show("Указанное значение конца диапазона меньше или равно началу диапазона!", "Ошибка в конечном значении диапазона",
+                    MessageBox.Show("Указанное значение конца диапазона меньше или равно начала диапазона!", "Ошибка в конечном значении диапазона",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     _isEndRangeNormal = false;
                     return;
@@ -196,6 +213,23 @@ namespace PsychoMetria.Windows
 
         private void SaveEvaluationBut_Click(object sender, RoutedEventArgs e)
         {
+            if (_isNameNormal)
+            {
+                nameCheckout();
+            }
+            if (_isDescriptionNormal)
+            {
+                descriptionCheckout();
+            }
+            if (_isStartRangeNormal)
+            {
+                startRangeCheckout();
+            }
+            if (_isEndRangeNormal)
+            {
+                endRangeCheckout();
+            }
+
             RangeChecout();
             if (!_isRangesNormal)
             {

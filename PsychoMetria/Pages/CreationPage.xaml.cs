@@ -54,27 +54,34 @@ namespace PsychoMetria.Pages
 
         private void EditLoader()
         {
+            CreateQuestionnaireBlock.Text = "Сохранить изменения";
+            DeleteQuestionnaireBut.Visibility = Visibility.Visible;
+
             NameBox.Text = OpenedQuestionnaire.Name;
+            _isNameNormal = true;
+
             if (OpenedQuestionnaire.EstimateType != null)
             {
                 EstimateBox.SelectedItem = all_estimateTypes.FirstOrDefault(x=> x.Estimate_Id == OpenedQuestionnaire.EstimateType.Estimate_Id);
                 _isEstimateNormal = true;
             }
-            DescriptionBox.Text = OpenedQuestionnaire.Name;
+            DescriptionBox.Text = OpenedQuestionnaire.Description;
 
             RefreshScaleList();
             RefreshQuestionList();
 
             if (OpenedQuestionnaire.IsMixedQuestions)
             {
-                MixUpQuestionsCheckBox.IsChecked = false;
+                MixUpQuestionsCheckBox.IsChecked = true;
             }
             else
             {
-                MixUpQuestionsCheckBox.IsChecked = true;
+                MixUpQuestionsCheckBox.IsChecked = false;
             }
 
             _isCreatingPage = false;
+
+            OpenedQuestionnaire.DecodeFile();
         }
 
         private void BackToMainBut_Click(object sender, RoutedEventArgs e)
@@ -129,7 +136,32 @@ namespace PsychoMetria.Pages
                 return;
             }
 
-            //РАБОТА С ФАЙЛАМИ И ПАПКАМИ + ПРОВЕРКА НЕОБХОДИМЫХ ЗНАЧЕНИЙ
+            var estimateType = EstimateBox.SelectedItem as EstimateType;
+            var mixUpStatus = Convert.ToBoolean(MixUpQuestionsCheckBox.IsChecked);
+            OpenedQuestionnaire.EditQuestionnaire(NameBox.Text, DescriptionBox.Text, estimateType.Estimate_Title, mixUpStatus);
+            OpenedQuestionnaire.EncodeToData();
+
+            MessageBox.Show("Сохранение теста прошло успешно!", "Успешное сохранение опроса",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+
+            CreateQuestionnaireBlock.Text = "Сохранить изменения";
+            DeleteQuestionnaireBut.Visibility = Visibility.Visible;
+        }
+
+        private void DeleteQuestionnaireBut_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите полностью удалить данный тест?", "Удаление теста",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            OpenedQuestionnaire.Delete();
+            NavigationService.GoBack();
+
+            MessageBox.Show("Удаление теста прошло успешно!", "Процесс завершен",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private bool MainInfoCheckout()
@@ -138,16 +170,16 @@ namespace PsychoMetria.Pages
             {
                 nameBoxCheckout();
             }
-            if (_isDescriptionNormal)
-            {
-                descriptionBoxCheckout();
-            }
             if (_isEstimateNormal)
             {
                 estimateBoxCheckout();
             }
+            if (_isDescriptionNormal)
+            {
+                descriptionBoxCheckout();
+            }
 
-            if (!_isNameNormal || !_isDescriptionNormal || !_isEstimateNormal)
+            if (!_isNameNormal || !_isEstimateNormal || !_isDescriptionNormal)
             {
                 return false;
             }
@@ -207,7 +239,7 @@ namespace PsychoMetria.Pages
             descriptionBoxCheckout();
         }
 
-        private bool _isDescriptionNormal = false;
+        private bool _isDescriptionNormal = true;
         private void descriptionBoxCheckout()
         {
             if (DescriptionBox.Text.Contains('\\') || DescriptionBox.Text.Contains('/'))
@@ -286,7 +318,7 @@ namespace PsychoMetria.Pages
         {
             var selected_item = (sender as Button).DataContext as Question;
             searchAndCloseWindow("OpenedQuestionWindow");
-            QuestionWindow questionWindow = new QuestionWindow(selected_item);
+            QuestionWindow questionWindow = new QuestionWindow(selected_item, "");
             RefreshQuestionList();
         }
 
