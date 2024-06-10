@@ -15,13 +15,13 @@ namespace PsychoMetria
     public partial class App : Application
     {
         public static bool IsWindowClosing = false;
-
         public static bool IsSettingsOpened = false;
         public static bool IsScalesOpened = false;
         public static bool IsEvaluationOpened = false;
         public static bool IsQuestionOpened = false;
         public static bool IsAnswerOpened = false;
         public static string AppDataPath = $"{AppDomain.CurrentDomain.BaseDirectory}Data";
+        public static string CurrentVersion = "A_1.0";
 
         public static void CreateAppDataFolder()
         {

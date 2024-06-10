@@ -26,7 +26,7 @@ namespace PsychoMetria.Pages
     {
         public Questionnaire OpenedQuestionnaire = new Questionnaire();
         private bool _isCreatingPage = true;
-        public CreationPage() //Если идет создание теста с нуля
+        public CreationPage() //Создание нового теста
         {
             InitializeComponent();
             BasicLoader();
@@ -43,7 +43,7 @@ namespace PsychoMetria.Pages
             EstimateBox.ItemsSource = all_estimateTypes;
         }
 
-        public CreationPage(Questionnaire questionnaire) //Если идет создание теста с нуля
+        public CreationPage(Questionnaire questionnaire) //Загрузка теста
         {
             InitializeComponent();
             BasicLoader();

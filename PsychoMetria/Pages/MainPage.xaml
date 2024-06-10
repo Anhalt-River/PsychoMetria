@@ -225,7 +225,8 @@
                 </Button>
 
                 <Button Width="50"  Opacity="0.8"
-                        Background="White">
+                        Background="White"
+                        Visibility="Collapsed">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="3"/>
@@ -282,7 +283,8 @@
                 </Button>
                 
                 <Button Width="50"  Opacity="0.8"
-                        Background="White">
+                        Background="White"
+                        Visibility="Collapsed">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="3"/>

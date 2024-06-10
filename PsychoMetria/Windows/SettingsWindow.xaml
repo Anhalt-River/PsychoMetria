@@ -59,5 +59,19 @@
                 </StackPanel>
             </StackPanel>
         </Border>
+
+
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Grid.Column="1" Grid.Row="1"
+                    Opacity="3"
+                    Orientation="Horizontal">
+            <TextBlock Text="Версия:"
+                       FontSize="15" Foreground="White"
+                       Margin="5, 5, 0, 5"/>
+            <TextBlock x:Name="CurrentVersionBlock"
+                       Text="(Неизвестная версия)"
+                       FontSize="15"
+                       Foreground="White"/>
+        </StackPanel>
     </Grid>
 </Window>

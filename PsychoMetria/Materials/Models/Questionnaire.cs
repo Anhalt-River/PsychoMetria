@@ -34,7 +34,7 @@ namespace PsychoMetria.Materials.Models
         public Questionnaire(string name) //Загрузить базовую информацию опроса
         {
             Name = name;
-            SearchFile();
+            searchFile();
 
             string separator = ($"{'/'}{'\\'}");
             string[] row_parts = _rowCode.Split(new string[] { separator }, StringSplitOptions.None);
@@ -49,7 +49,7 @@ namespace PsychoMetria.Materials.Models
             decoder();
         }
 
-        private void SearchFile()
+        private void searchFile()
         {
             string path = App.AppDataPath + $"\\{Name}";
 

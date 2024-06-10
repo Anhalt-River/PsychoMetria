@@ -34,6 +34,7 @@ namespace PsychoMetria.Windows
                 this.Owner = App.Current.MainWindow;
                 this.Show();
                 backgroundFlicker();
+                CurrentVersionBlock.Text = App.CurrentVersion;
             }
             else
             {

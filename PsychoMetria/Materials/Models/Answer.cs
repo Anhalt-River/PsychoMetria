@@ -48,7 +48,8 @@ namespace PsychoMetria.Materials.Models
                 Answer_Text = array[1];
                 Question_Id = Convert.ToInt32(array[2]);
             }
-            catch (Exception) { MessageBox.Show("Загружаемый файл теста поврежден!", "Ошибка при загрузке!", MessageBoxButton.OK, MessageBoxImage.Error); }
+            catch (Exception) { MessageBox.Show("Загружаемый файл теста поврежден!", "Ошибка при загрузке!", 
+                MessageBoxButton.OK, MessageBoxImage.Error); }
         }
     }
 }
