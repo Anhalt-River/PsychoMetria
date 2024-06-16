@@ -30,7 +30,7 @@
         <ListView Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2"
                   x:Name="QuestionnaireList"
                   BorderBrush="MidnightBlue" BorderThickness="2" 
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                   d:ItemsSource="{d:SampleData ItemCount=50}">
 
             <ListView.Style>
@@ -45,7 +45,7 @@
             
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 
                     <!-- Единственный, пусть и ломанный способ убрать выделение -->

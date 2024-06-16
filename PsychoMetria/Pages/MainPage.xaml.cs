@@ -153,20 +153,24 @@ namespace PsychoMetria.Pages
             { Filter = "PTM Files (*.ptm)|*.ptm" }; ;
 
             Nullable<bool> result = dlg.ShowDialog();
- 
-            FileInfo fileInfo = new FileInfo(dlg.FileName);
-            if (result == true)
+            try
             {
-                var path = App.AppDataPath + '\\' + fileInfo.Name;
-                if (!File.Exists(path))
+                FileInfo fileInfo = new FileInfo(dlg.FileName);
+
+                if (result == true)
                 {
-                    File.Move(dlg.FileName, path);
-                }
-                else
-                {
-                    MessageBox.Show("Выбранный файл уже существует в памяти приложения!", "Ошибка при загрузке", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var path = App.AppDataPath + '\\' + fileInfo.Name;
+                    if (!File.Exists(path))
+                    {
+                        File.Move(dlg.FileName, path);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выбранный файл уже существует в памяти приложения!", "Ошибка при загрузке", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
+            catch (Exception) { }
 
             ListLoader();
         }

@@ -144,7 +144,6 @@ namespace PsychoMetria.Windows
         }
 
 
-
         /// <summary>
         /// Методы для списка оценок
         /// </summary>
@@ -226,6 +225,13 @@ namespace PsychoMetria.Windows
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.No)
             {
+                return;
+            }
+
+            if (App.IsQuestionOpened)
+            {
+                MessageBox.Show("Пожалуйста, закройте окно вопроса перед тем, как удалить шкалу, дабы избежать потери целостности данных тестирования", "Удаление приостановлено",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 

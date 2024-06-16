@@ -285,6 +285,13 @@ namespace PsychoMetria.Pages
         }
         private void DeleteScaleBut_Click(object sender, RoutedEventArgs e)
         {
+            if (App.IsQuestionOpened)
+            {
+                MessageBox.Show("Пожалуйста, закройте окно вопроса перед тем, как удалить шкалу, дабы избежать потери целостности данных тестирования", "Удаление приостановлено",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
             var selected_item = (sender as Button).DataContext as Scale;
             searchAndCloseWindow("OpenedScaleWindow");
             OpenedQuestionnaire.DeleteScale(selected_item);
