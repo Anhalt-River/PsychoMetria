@@ -69,24 +69,26 @@ namespace PsychoMetria.Windows
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             App.IsAnswerOpened = false;
-            if (this.Owner != null)
+            try
             {
-                this.Owner.Activate();
+                if (this.Owner != null)
+                {
+                    this.Owner.Activate();
+                }
+                else
+                {
+                    Application.Current.MainWindow.Activate();
+                }
+            }
+            catch (Exception)
+            {
+                Application.Current.MainWindow.Activate();
             }
         }
 
         private void RefreshScaleAttachList()
         {
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
-            /*List<SupScaleAttach> supScaleAttaches = new List<SupScaleAttach>();
-            supScaleAttaches = take_page.OpenedQuestionnaire.TakeAllScaleAttach(_taked_questionId);
-            var secondList = take_page.OpenedQuestionnaire.TakeAllScaleAttach2_NonAttached(_taked_questionId);
-            foreach (var scale in secondList)
-            {
-                supScaleAttaches.Add(scale);
-            }*/
-
-
 
             ScalesList.ItemsSource = null;
             ScalesList.ItemsSource = take_page.OpenedQuestionnaire.TakeAllInfluences(_taked_answer);

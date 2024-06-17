@@ -82,7 +82,9 @@
                                                     HorizontalAlignment="Left" >
                                             <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Left" >
                                                 <TextBlock Text="Полученный результат:" HorizontalAlignment="Left" />
-                                                <TextBlock Text="{Binding Evaluation_Title}" HorizontalAlignment="Left" />
+                                                <TextBox Text="{Binding Evaluation_Title}" HorizontalAlignment="Left" 
+                                                         IsReadOnly="True"
+                                                         BorderBrush="White"/>
                                             </StackPanel>
                                             <TextBlock Text="{Binding Evaluation_Description}"
                                                        TextWrapping="Wrap"/>

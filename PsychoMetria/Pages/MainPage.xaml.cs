@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -63,10 +64,11 @@ namespace PsychoMetria.Pages
             NavigationService.Navigate(new IntroductoryPage(selected_item));
         }
 
-        
+
+        List<Questionnaire> _questionnaires = new List<Questionnaire>();
         public void ListLoader()
         {
-            List<Questionnaire> questionnaires = new List<Questionnaire>();
+            _questionnaires = new List<Questionnaire>();
 
             var all_files = Directory.GetFiles(App.AppDataPath, "*", SearchOption.AllDirectories).ToList();
             foreach (var file in all_files)
@@ -76,13 +78,13 @@ namespace PsychoMetria.Pages
                 var file_extension = file_name.Split('.');
                 if (file_extension[1] == "ptm")
                 {
-                    Questionnaire questionnaire = new Questionnaire(file_name);
-                    questionnaires.Add(questionnaire);
+                    Questionnaire questionnaire = new Questionnaire(file_name, file);
+                    _questionnaires.Add(questionnaire);
                 }
             }
 
             QuestionnaireList.ItemsSource = null;
-            QuestionnaireList.ItemsSource = questionnaires;
+            QuestionnaireList.ItemsSource = _questionnaires;
         }
 
         private void UserToolKitBut_Click(object sender, RoutedEventArgs e)
@@ -159,9 +161,18 @@ namespace PsychoMetria.Pages
 
                 if (result == true)
                 {
-                    var path = App.AppDataPath + '\\' + fileInfo.Name;
-                    if (!File.Exists(path))
+                    bool isPresent = searchPresentQuestionnaire(fileInfo.Name);
+                    if (isPresent)
                     {
+                        MessageBox.Show("Выбранный файл уже существует в памяти приложения!", "Ошибка при загрузке", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    Questionnaire questionnaire = new Questionnaire(fileInfo.Name, fileInfo.FullName);
+                    var search_byName = _questionnaires.FirstOrDefault(x=> x.Name == questionnaire.Name);
+                    if (search_byName == null)
+                    {
+                        var path = App.AppDataPath + '\\' + fileInfo.Name;
                         File.Move(dlg.FileName, path);
                     }
                     else
@@ -173,6 +184,18 @@ namespace PsychoMetria.Pages
             catch (Exception) { }
 
             ListLoader();
+        }
+
+        private bool searchPresentQuestionnaire(string fileName)
+        {
+            string formatName = fileName;
+            var search_questionnaire = _questionnaires.FirstOrDefault(x=> x.Name + ".ptm" == formatName);
+            if (search_questionnaire == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void SettingsBut_Click(object sender, RoutedEventArgs e)

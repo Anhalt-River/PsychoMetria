@@ -69,7 +69,21 @@ namespace PsychoMetria.Windows
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             App.IsEvaluationOpened = false;
-            this.Owner.Activate();
+            try
+            {
+                if (this.Owner != null)
+                {
+                    this.Owner.Activate();
+                }
+                else
+                {
+                    Application.Current.MainWindow.Activate();
+                }
+            }
+            catch (Exception) 
+            {
+                Application.Current.MainWindow.Activate();
+            }
         }
 
         private void NameBox_LostFocus(object sender, RoutedEventArgs e)
@@ -97,7 +111,7 @@ namespace PsychoMetria.Windows
                 return;
             }
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
-            if (!take_page.OpenedQuestionnaire.NameCheckoutEvaluation(NameBox.Text, _taked_evaluation.Evaluation_Id))
+            if (!take_page.OpenedQuestionnaire.NameCheckoutEvaluation(NameBox.Text, _taked_evaluation.Evaluation_Id, _taked_scaleId))
             {
                 MessageBox.Show("Указанное название оценки повторяет название других оценок в тесте!", "Ошибка в названии",
                     MessageBoxButton.OK, MessageBoxImage.Error);

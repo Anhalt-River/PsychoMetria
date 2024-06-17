@@ -270,6 +270,8 @@ namespace PsychoMetria.Windows
         }
         private void AddNewAnswerBut_Click(object sender, RoutedEventArgs e)
         {
+            searchAndCloseWindow();
+
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
             var created_question = take_page.OpenedQuestionnaire.AddNewAnswer(_taked_question.Question_Id);
             AnswerWindow answerWindow = new AnswerWindow(created_question, _taked_question.Question_Id);
@@ -286,6 +288,8 @@ namespace PsychoMetria.Windows
 
         private void DeleteAnswerBut_Click(object sender, RoutedEventArgs e)
         {
+            searchAndCloseWindow();
+
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
             var selected_item = (sender as Button).DataContext as Answer;
             take_page.OpenedQuestionnaire.DeleteAnswer(selected_item);

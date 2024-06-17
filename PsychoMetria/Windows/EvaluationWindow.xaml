@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PsychoMetria.Windows"
         mc:Ignorable="d"
         Title="Окно оценки" Height="450" Width="800"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        x:Name="OpenedEvaluationWindow">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

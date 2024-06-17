@@ -31,10 +31,10 @@ namespace PsychoMetria.Materials.Models
         {
         }
 
-        public Questionnaire(string name) //Загрузить базовую информацию опроса
+        public Questionnaire(string name, string fullName) //Загрузить базовую информацию опроса
         {
             Name = name;
-            searchFile();
+            searchFile(fullName);
 
             string separator = ($"{'/'}{'\\'}");
             string[] row_parts = _rowCode.Split(new string[] { separator }, StringSplitOptions.None);
@@ -49,9 +49,9 @@ namespace PsychoMetria.Materials.Models
             decoder();
         }
 
-        private void searchFile()
+        private void searchFile(string fullName)
         {
-            string path = App.AppDataPath + $"\\{Name}";
+            string path = fullName;
 
             try
             {
@@ -630,9 +630,9 @@ namespace PsychoMetria.Materials.Models
             var all_evaluationForScale = _all_EvaluationsList.Where(x => x.Scale_Id == scaleId).ToList();
             return all_evaluationForScale;
         }
-        public bool NameCheckoutEvaluation(string name, int evaluationId)
+        public bool NameCheckoutEvaluation(string name, int evaluationId, int scaleId)
         {
-            var searched_item = _all_EvaluationsList.FirstOrDefault(x => x.Evaluation_Title == name && x.Evaluation_Id != evaluationId);
+            var searched_item = _all_EvaluationsList.FirstOrDefault(x => x.Evaluation_Title == name && x.Evaluation_Id != evaluationId && x.Scale_Id == scaleId);
             if (searched_item == null)
             {
                 return true;

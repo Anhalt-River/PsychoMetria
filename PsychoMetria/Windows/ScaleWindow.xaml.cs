@@ -143,13 +143,25 @@ namespace PsychoMetria.Windows
             _isDescriptionNormal = true;
         }
 
+        private void searchAndCloseWindow()
+        {
+            var owned_windows = this.OwnedWindows;
+            foreach (var window in owned_windows)
+            {
+                var real_window = window as Window;
+                if (real_window.Name == "OpenedEvaluationWindow")
+                {
+                    real_window.Close();
+                }
+            }
+        }
 
         /// <summary>
         /// Методы для списка оценок
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
+
         public void RefreshEvaluationList()
         {
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
@@ -158,6 +170,8 @@ namespace PsychoMetria.Windows
 
         private void AddNewEvaluationBut_Click(object sender, RoutedEventArgs e)
         {
+            searchAndCloseWindow();
+
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
             var created_evaluation = take_page.OpenedQuestionnaire.AddNewEvaluation(_taked_scale.Scale_Id);
             EvaluationWindow evaluationWindow = new EvaluationWindow(created_evaluation, _taked_scale.Scale_Id);
@@ -165,12 +179,16 @@ namespace PsychoMetria.Windows
         }
         private void EditEvaluationBut_Click(object sender, RoutedEventArgs e)
         {
+            searchAndCloseWindow();
+
             var selected_item = (sender as Button).DataContext as Evaluation;
             EvaluationWindow evaluationWindow = new EvaluationWindow(selected_item, _taked_scale.Scale_Id, "");
             RefreshEvaluationList();
         }
         private void DeleteEvaluationBut_Click(object sender, RoutedEventArgs e)
         {
+            searchAndCloseWindow();
+
             var take_page = (App.Current.MainWindow as MainWindow).MainFrame.Content as CreationPage;
             var selected_item = (sender as Button).DataContext as Evaluation;
             take_page.OpenedQuestionnaire.DeleteEvaluation(selected_item);

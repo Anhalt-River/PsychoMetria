@@ -186,6 +186,8 @@ namespace PsychoMetria.Pages
             return true;
         }
 
+
+
         /// <summary>
         /// ОБЩАЯ ИНФОРМАЦИЯ
         /// Методы
