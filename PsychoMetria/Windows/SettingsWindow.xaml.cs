@@ -82,7 +82,7 @@ namespace PsychoMetria.Windows
             }
         }
 
-        private void LoaderCheckBox_Checked(object sender, RoutedEventArgs e)
+            private void LoaderCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             PsychoMetria.Properties.Settings.Default.IsLoadCanceled = false;
             PsychoMetria.Properties.Settings.Default.Save();

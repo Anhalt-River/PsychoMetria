@@ -56,6 +56,11 @@ namespace PsychoMetria.Pages
                 DeveloperToolKitBut.Visibility = Visibility.Visible;
                 UserModeBut.Visibility = Visibility.Visible;
             }
+
+            if (isDeveloperToggle)
+            {
+                developerToolKitMethod();
+            }
         }
 
         private void QuestionnaireStartBut_Click(object sender, RoutedEventArgs e)
